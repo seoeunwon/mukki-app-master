@@ -1,34 +1,13 @@
 import 'package:flutter/material.dart';
-//import 'loginpage.dart';
-import 'signup_preferences.dart';
-import 'mainpage.dart';
 
-void main() {
-  runApp(MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(primarySwatch: Colors.blue, primaryColor: Colors.blue),
-      home: SignUpform(),
-    );
-  }
-}
-
-class SignUpform extends StatelessWidget {
-  const SignUpform({super.key});
+class LoginPage extends StatelessWidget {
+  const LoginPage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Sign Up'),
+        title: const Text('Login'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(30.0),
@@ -36,8 +15,8 @@ class SignUpform extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Image.asset('lib/pictures/logo.png', width: 100, height: 100),
-            SizedBox(height: 60),
-            Text('Create your account'),
+            SizedBox(height: 80),
+            Text('Login to your account'),
             SizedBox(height: 20),
             TextField(
                 decoration: InputDecoration(
@@ -67,49 +46,29 @@ class SignUpform extends StatelessWidget {
                 ),
                 cursorColor: Color(0xFF2D4739)),
             SizedBox(height: 20),
-            TextField(
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: 'Verify your password',
-                  labelStyle: TextStyle(
-                    color: Color(0xFF2D4739),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(
-                    color: Color(0xFF2D4739),
-                  )),
-                ),
-                cursorColor: Color(0xFF2D4739)),
-            SizedBox(height: 20),
             ElevatedButton(
               style: ElevatedButton.styleFrom(
-                backgroundColor: Color(0xFF2D4739), // 배경색 설정
-                foregroundColor: Color(0xFFF5F5F5), // 텍스트 색상 설정
+                backgroundColor: Color(0xFF2D4739),
+                foregroundColor: Colors.white,
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(5), // 버튼 모서리 둥글게 설정
+                  borderRadius: BorderRadius.circular(5),
                 ),
               ),
               onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const SignUpPreferences()),
-                );
+                // 로그인 처리 코드 추가
               },
-              child: const Text('Sign Up'),
+              child: const Text('Sign In'),
             ),
-
-            SizedBox(height: 20),
-
             //다른 방법으로 로그인
-            Text('Or sign up with...'),
+            SizedBox(height: 20),
+            Text('Or sign in with...'),
             SizedBox(height: 20),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Color(0xFFF5F5F5),
+                    backgroundColor: Colors.white,
                     foregroundColor: Colors.black,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(5),
@@ -123,7 +82,7 @@ class SignUpform extends StatelessWidget {
                 SizedBox(width: 10),
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Color(0xFFF5F5F5), // 배경색 설정
+                    backgroundColor: Colors.white, // 배경색 설정
                     foregroundColor: Colors.black, // 텍스트 색상 설정
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(5), // 버튼 모서리 둥글게 설정
@@ -137,7 +96,7 @@ class SignUpform extends StatelessWidget {
                 SizedBox(width: 10),
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Color(0xFFF5F5F5), // 배경색 설정
+                    backgroundColor: Colors.white, // 배경색 설정
                     foregroundColor: Colors.black, // 텍스트 색상 설정
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(5), // 버튼 모서리 둥글게 설정
