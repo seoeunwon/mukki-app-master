@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:mukki/loginpage.dart';
 
-class MainPage extends StatelessWidget {
-  const MainPage({super.key});
+class FirstPage extends StatelessWidget {
+  const FirstPage({super.key});
 
   @override
   Widget build(BuildContext context) {

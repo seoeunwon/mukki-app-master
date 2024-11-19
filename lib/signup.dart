@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:mukki/fisrtpage.dart';
-import 'package:mukki/signup.dart';
+import 'signup_preferences.dart';
 
-class LoginPage extends StatelessWidget {
-  const LoginPage({super.key});
+class SignUpform extends StatelessWidget {
+  const SignUpform({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Login'),
+        title: const Text('Sign Up'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(30.0),
@@ -17,8 +16,8 @@ class LoginPage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Image.asset('lib/pictures/logo.png', width: 100, height: 100),
-            SizedBox(height: 80),
-            Text('Login to your account'),
+            SizedBox(height: 60),
+            Text('Create your account'),
             SizedBox(height: 20),
             TextField(
                 decoration: InputDecoration(
@@ -48,32 +47,49 @@ class LoginPage extends StatelessWidget {
                 ),
                 cursorColor: Color(0xFF2D4739)),
             SizedBox(height: 20),
+            TextField(
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(),
+                  labelText: 'Verify your password',
+                  labelStyle: TextStyle(
+                    color: Color(0xFF2D4739),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(
+                    color: Color(0xFF2D4739),
+                  )),
+                ),
+                cursorColor: Color(0xFF2D4739)),
+            SizedBox(height: 20),
             ElevatedButton(
               style: ElevatedButton.styleFrom(
-                backgroundColor: Color(0xFF2D4739),
-                foregroundColor: Colors.white,
+                backgroundColor: Color(0xFF2D4739), // 배경색 설정
+                foregroundColor: Color(0xFFF5F5F5), // 텍스트 색상 설정
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(5),
+                  borderRadius: BorderRadius.circular(5), // 버튼 모서리 둥글게 설정
                 ),
               ),
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => FirstPage()),
+                  MaterialPageRoute(
+                      builder: (context) => const SignUpPreferences()),
                 );
               },
-              child: const Text('Sign In'),
+              child: const Text('Sign Up'),
             ),
-            //다른 방법으로 로그인
+
             SizedBox(height: 20),
-            Text('Or sign in with...'),
+
+            //다른 방법으로 로그인
+            Text('Or sign up with...'),
             SizedBox(height: 20),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.white,
+                    backgroundColor: Color(0xFFF5F5F5),
                     foregroundColor: Colors.black,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(5),
@@ -87,7 +103,7 @@ class LoginPage extends StatelessWidget {
                 SizedBox(width: 10),
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.white, // 배경색 설정
+                    backgroundColor: Color(0xFFF5F5F5), // 배경색 설정
                     foregroundColor: Colors.black, // 텍스트 색상 설정
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(5), // 버튼 모서리 둥글게 설정
@@ -96,12 +112,12 @@ class LoginPage extends StatelessWidget {
                   onPressed: () {
                     // Add the code to sign up with Facebook
                   },
-                  child: const Text('Kakao'),
+                  child: const Text('Facebook'),
                 ),
                 SizedBox(width: 10),
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.white, // 배경색 설정
+                    backgroundColor: Color(0xFFF5F5F5), // 배경색 설정
                     foregroundColor: Colors.black, // 텍스트 색상 설정
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(5), // 버튼 모서리 둥글게 설정
@@ -113,20 +129,6 @@ class LoginPage extends StatelessWidget {
                   child: const Text('Apple'),
                 ),
               ],
-            ),
-            TextButton(
-              style: ElevatedButton.styleFrom(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(5), // 버튼 모서리 둥글게 설정
-                ),
-              ),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => SignUpform()),
-                );
-              },
-              child: const Text('or make new account'),
             ),
           ],
         ),

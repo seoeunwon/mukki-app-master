@@ -135,7 +135,7 @@ class SignUpPreferences extends StatelessWidget {
                       ),
                     ),
                   ),
-                  SizedBox(width: 10),
+                  SizedBox(width: 20),
                   // 버튼과의 간격 설정
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
