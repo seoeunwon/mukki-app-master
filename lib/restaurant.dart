@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:mukki/loginpage.dart';
 
-class FirstPage extends StatelessWidget {
-  const FirstPage({super.key});
+class Restaurant extends StatelessWidget {
+  const Restaurant({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       body: Padding(
         padding: const EdgeInsets.all(30.0),
         child: Column(
@@ -15,13 +16,13 @@ class FirstPage extends StatelessWidget {
             SizedBox(height: 10),
             Image.asset('lib/pictures/logo.png', width: 200, height: 200),
             SizedBox(height: 10),
-            Text('Language Settings'),
+            Text('Language Settings',
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
             SizedBox(height: 20),
             Row(
               children: [
                 Expanded(
                   child: SizedBox(
-                    height: 40,
                     child: TextField(
                         decoration: InputDecoration(
                           border: OutlineInputBorder(),
@@ -37,6 +38,7 @@ class FirstPage extends StatelessWidget {
                   ),
                 ),
                 SizedBox(width: 10),
+                //make scroll
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Color(0xFF2D4739),
@@ -44,10 +46,9 @@ class FirstPage extends StatelessWidget {
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(5),
                     ),
-                    minimumSize: Size(80, 40),
+                    minimumSize: Size(80, 55),
                   ),
                   onPressed: () {
-                    // 언어 설정 코드 추가
                     Navigator.push(
                       context,
                       MaterialPageRoute(builder: (context) => LoginPage()),

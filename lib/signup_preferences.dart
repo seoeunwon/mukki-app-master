@@ -1,25 +1,74 @@
 import 'package:flutter/material.dart';
+import 'package:mukki/mainpage.dart';
 
-class SignUpPreferences extends StatelessWidget {
+class SignUpPreferences extends StatefulWidget {
   const SignUpPreferences({super.key});
 
   @override
+  State<SignUpPreferences> createState() => _SignUpPreferencesState();
+}
+
+class _SignUpPreferencesState extends State<SignUpPreferences> {
+  final _excludeFoodController = TextEditingController();
+  var foodList = [];
+
+  @override
+  void dispose() {
+    _excludeFoodController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    Widget buildFoodButton(BuildContext context, String label) {
+      return ElevatedButton(
+        style: ElevatedButton.styleFrom(
+          backgroundColor: Colors.white,
+          foregroundColor: Colors.black,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(5),
+          ),
+        ),
+        onPressed: () {
+          setState(() {
+            foodList.remove(label);
+          });
+        },
+        child: Text(
+          label + '   ❎',
+          style: TextStyle(
+            fontSize: 18,
+          ),
+        ),
+      );
+    }
+
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
-        title: const Text('Login'),
+        title: const Text(
+          'Sign Up',
+          style: TextStyle(fontSize: 22),
+        ),
+        backgroundColor: Colors.white,
+        elevation: 0,
       ),
       body: SingleChildScrollView(
-        // 스크롤 가능하도록 추가
         child: Padding(
           padding: const EdgeInsets.all(30.0),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Image.asset('lib/pictures/logo.png', width: 100, height: 100),
               SizedBox(height: 50),
-              Text('Name you want to be called'),
-              SizedBox(height: 20),
+              Text(
+                'Name you want to be called',
+                textAlign: TextAlign.left,
+                style: TextStyle(
+                  fontSize: 18,
+                ),
+              ),
+              SizedBox(height: 18),
               TextField(
                   decoration: InputDecoration(
                     border: OutlineInputBorder(),
@@ -32,10 +81,16 @@ class SignUpPreferences extends StatelessWidget {
                     )),
                   ),
                   cursorColor: Color(0xFF2D4739)),
-              SizedBox(height: 20),
-              Text('Add your address'),
+              SizedBox(height: 18),
+              Text(
+                'Add your address',
+                style: TextStyle(
+                  fontSize: 18,
+                ),
+              ),
               SizedBox(height: 10),
               TextField(
+                  style: TextStyle(fontSize: 15),
                   decoration: InputDecoration(
                     border: OutlineInputBorder(),
                     labelText: 'Search',
@@ -48,8 +103,9 @@ class SignUpPreferences extends StatelessWidget {
                     )),
                   ),
                   cursorColor: Color(0xFF2D4739)),
-              SizedBox(height: 20),
+              SizedBox(height: 18),
               TextField(
+                  style: TextStyle(fontSize: 15),
                   decoration: InputDecoration(
                     border: OutlineInputBorder(),
                     labelText: 'Additional address',
@@ -62,44 +118,43 @@ class SignUpPreferences extends StatelessWidget {
                     )),
                   ),
                   cursorColor: Color(0xFF2D4739)),
-              SizedBox(height: 20),
-              Text('Pick your preferences or'),
-              Text('Dietary Requirements'),
-              SizedBox(height: 20),
+              SizedBox(height: 18),
+              Text(
+                'Pick your preferences or',
+                style: TextStyle(
+                  fontSize: 18,
+                ),
+              ),
+              Text(
+                'Dietary Requirements',
+                style: TextStyle(
+                  fontSize: 18,
+                ),
+              ),
+              SizedBox(height: 18),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.white,
+                      backgroundColor: Color(0xFFDAF0EE),
                       foregroundColor: Colors.black,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(5),
                       ),
                     ),
-                    onPressed: () {
-                      // Add the code to sign up with Google
-                    },
-                    child: const Text('Vegan'),
-                  ),
-                  SizedBox(width: 10),
-                  ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.white,
-                      foregroundColor: Colors.black,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(5),
+                    onPressed: () {},
+                    child: const Text(
+                      'Halal',
+                      style: TextStyle(
+                        fontSize: 18,
                       ),
                     ),
-                    onPressed: () {
-                      // Add the code to sign up with Facebook
-                    },
-                    child: const Text('Halal'),
                   ),
-                  SizedBox(width: 10),
+                  SizedBox(width: 18),
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.white,
+                      backgroundColor: Color(0xFFDAF0EE),
                       foregroundColor: Colors.black,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(5),
@@ -108,34 +163,45 @@ class SignUpPreferences extends StatelessWidget {
                     onPressed: () {
                       // Add the code to sign up with Apple
                     },
-                    child: const Text('Vegetarian'),
+                    child: const Text(
+                      'Vegetarian',
+                      style: TextStyle(
+                        fontSize: 18,
+                      ),
+                    ),
                   ),
                 ],
               ),
               SizedBox(height: 20),
-              Text("Add food you don't eat"),
-              SizedBox(height: 10),
+              Text(
+                "Add food you don't eat",
+                style: TextStyle(
+                  fontSize: 18,
+                ),
+              ),
+              SizedBox(height: 20),
               Row(
                 children: [
                   Expanded(
-                    child: SizedBox(
-                      height: 40,
-                      child: TextField(
-                        decoration: InputDecoration(
-                          border: OutlineInputBorder(),
-                          labelStyle: TextStyle(
+                    child: TextField(
+                      controller: _excludeFoodController,
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                          borderSide: BorderSide(
                             color: Color(0xFF2D4739),
                           ),
-                          focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                            color: Color(0xFF2D4739),
-                          )),
                         ),
-                        cursorColor: Color(0xFF2D4739),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                            color: Color(0xFF2D4739),
+                          ),
+                        ),
                       ),
+                      cursorColor: Color(0xFF2D4739),
                     ),
                   ),
-                  SizedBox(width: 20),
+                  SizedBox(width: 18), // 버튼과의 간격 설정
+
                   // 버튼과의 간격 설정
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
@@ -144,17 +210,35 @@ class SignUpPreferences extends StatelessWidget {
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(5),
                       ),
-                      minimumSize: Size(80, 40),
+                      minimumSize: Size(80, 55),
                     ),
                     onPressed: () {
-                      // Add 버튼의 기능 추가
+                      print(_excludeFoodController.text);
+                      foodList.add(_excludeFoodController.text);
+                      _excludeFoodController.text = '';
+                      print(foodList);
+                      setState(() {
+                        foodList = foodList;
+                      });
                     },
-                    child: const Text('Add'),
+                    child: const Text(
+                      'Add',
+                      style: TextStyle(
+                        fontSize: 18,
+                      ),
+                    ),
                   ),
                 ],
               ),
-
-              SizedBox(height: 100),
+              SizedBox(height: 20),
+              Wrap(
+                spacing: 10,
+                children: [
+                  for (var f in foodList) buildFoodButton(context, f),
+                ],
+              ),
+              SizedBox(height: 80),
+              SizedBox(height: 30),
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Color(0xFF2D4739),
@@ -164,11 +248,19 @@ class SignUpPreferences extends StatelessWidget {
                   ),
                 ),
                 onPressed: () {
-                  // 로그인 처리 코드 추가
+                  //navigate to mainpage
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => MainPage()),
+                  );
                 },
-                child: const Text('Sign In'),
+                child: const Text(
+                  'Sign In',
+                  style: TextStyle(
+                    fontSize: 18,
+                  ),
+                ),
               ),
-              //다른 방법으로 로그인
             ],
           ),
         ),

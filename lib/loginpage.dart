@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mukki/fisrtpage.dart';
-import 'package:mukki/signup.dart';
+import 'package:mukki/signup_preferences.dart';
 
 class LoginPage extends StatelessWidget {
   const LoginPage({super.key});
@@ -8,126 +7,61 @@ class LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
         title: const Text('Login'),
+        backgroundColor: Colors.white,
       ),
       body: Padding(
-        padding: const EdgeInsets.all(30.0),
+        padding: const EdgeInsets.all(60.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Image.asset('lib/pictures/logo.png', width: 100, height: 100),
-            SizedBox(height: 80),
-            Text('Login to your account'),
-            SizedBox(height: 20),
-            TextField(
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: 'Enter your username',
-                  labelStyle: TextStyle(
-                    color: Color(0xFF2D4739),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(
-                    color: Color(0xFF2D4739),
-                  )),
-                ),
-                cursorColor: Color(0xFF2D4739)),
-            SizedBox(height: 20),
-            TextField(
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: 'Enter your password',
-                  labelStyle: TextStyle(
-                    color: Color(0xFF2D4739),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(
-                    color: Color(0xFF2D4739),
-                  )),
-                ),
-                cursorColor: Color(0xFF2D4739)),
-            SizedBox(height: 20),
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Color(0xFF2D4739),
-                foregroundColor: Colors.white,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(5),
-                ),
+            SizedBox(height: 55),
+            Text(
+              '먹끼[muk-ki]',
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
               ),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => FirstPage()),
-                );
-              },
-              child: const Text('Sign In'),
             ),
-            //다른 방법으로 로그인
-            SizedBox(height: 20),
-            Text('Or sign in with...'),
-            SizedBox(height: 20),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.white,
-                    foregroundColor: Colors.black,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(5),
-                    ),
-                  ),
-                  onPressed: () {
-                    // Add the code to sign up with Google
-                  },
-                  child: const Text('Google'),
-                ),
-                SizedBox(width: 10),
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.white, // 배경색 설정
-                    foregroundColor: Colors.black, // 텍스트 색상 설정
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(5), // 버튼 모서리 둥글게 설정
-                    ),
-                  ),
-                  onPressed: () {
-                    // Add the code to sign up with Facebook
-                  },
-                  child: const Text('Kakao'),
-                ),
-                SizedBox(width: 10),
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.white, // 배경색 설정
-                    foregroundColor: Colors.black, // 텍스트 색상 설정
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(5), // 버튼 모서리 둥글게 설정
-                    ),
-                  ),
-                  onPressed: () {
-                    // Add the code to sign up with Apple
-                  },
-                  child: const Text('Apple'),
-                ),
-              ],
-            ),
+            SizedBox(height: 45),
             TextButton(
-              style: ElevatedButton.styleFrom(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(5), // 버튼 모서리 둥글게 설정
+                style: TextButton.styleFrom(
+                  backgroundColor: Colors.transparent,
+                  overlayColor: Colors.transparent,
                 ),
-              ),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => SignUpform()),
-                );
-              },
-              child: const Text('or make new account'),
-            ),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => SignUpPreferences()),
+                  );
+                },
+                child: Column(
+                  children: [
+                    Image.asset('lib/pictures/google_login.png'),
+                  ],
+                )),
+            TextButton(
+                style: TextButton.styleFrom(
+                  backgroundColor: Colors.transparent,
+                  overlayColor: Colors.transparent,
+                ),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => SignUpPreferences()),
+                  );
+                },
+                child: Column(
+                  children: [
+                    Image.asset('lib/pictures/kakao_login.png'),
+                  ],
+                )),
+            SizedBox(height: 20),
           ],
         ),
       ),

@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mukki/fisrtpage.dart';
-import 'package:mukki/loginpage.dart';
-import 'loginpage.dart';
+import 'package:mukki/firstpage.dart';
 
 void main() {
   runApp(MyApp());
