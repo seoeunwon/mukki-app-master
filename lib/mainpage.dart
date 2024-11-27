@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mukki/setting.dart';
 import 'package:mukki/restaurant.dart';
 
 class MainPage extends StatelessWidget {
@@ -7,7 +8,7 @@ class MainPage extends StatelessWidget {
   Widget buildRecommendButton(BuildContext context, String label) {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
-        backgroundColor: Colors.blueGrey,
+        backgroundColor: Colors.blue,
         foregroundColor: Colors.white,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(5),
@@ -28,8 +29,8 @@ class MainPage extends StatelessWidget {
     return SizedBox(
       width: 120,
       height: 90,
-      child: ElevatedButton(
-        style: ElevatedButton.styleFrom(
+      child: TextButton(
+        style: TextButton.styleFrom(
           backgroundColor: Colors.blueGrey,
           foregroundColor: Colors.white,
           shape: RoundedRectangleBorder(
@@ -51,22 +52,26 @@ class MainPage extends StatelessWidget {
     return SizedBox(
       width: double.infinity, // 버튼이 가로로 꽉 차도록 설정
       height: 90, // 버튼의 높이 설정
-      child: ElevatedButton(
-        style: ElevatedButton.styleFrom(
-          backgroundColor: Colors.white,
-          foregroundColor: Colors.black,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(5),
+      child: TextButton(
+          style: TextButton.styleFrom(
+            backgroundColor: Colors.white,
+            foregroundColor: Colors.black,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(5),
+            ),
           ),
-        ),
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => Restaurant()),
-          );
-        },
-        child: Text(label),
-      ),
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => Restaurant()),
+            );
+          },
+          child: Align(
+            alignment: Alignment.centerLeft,
+            child: Text(
+              "This restaurant\ndoesn't exist",
+            ),
+          )),
     );
   }
 
@@ -75,8 +80,20 @@ class MainPage extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        title: const Text('Hi, Username!'),
         backgroundColor: Colors.white,
+        leading: IconButton(
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => Setting()),
+            );
+          },
+          icon: Icon(
+            size: 35,
+            Icons.menu,
+            color: Colors.black,
+          ),
+        ),
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(30.0),

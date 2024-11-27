@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:mukki/mainpage.dart';
+import 'package:mukki/shared_data.dart';
+
+final _excludeFoodController = excludeFoodController;
 
 class SignUpPreferences extends StatefulWidget {
   const SignUpPreferences({super.key});
@@ -9,9 +12,6 @@ class SignUpPreferences extends StatefulWidget {
 }
 
 class _SignUpPreferencesState extends State<SignUpPreferences> {
-  final _excludeFoodController = TextEditingController();
-  var foodList = [];
-
   @override
   void dispose() {
     _excludeFoodController.dispose();
@@ -88,22 +88,46 @@ class _SignUpPreferencesState extends State<SignUpPreferences> {
                   fontSize: 18,
                 ),
               ),
-              SizedBox(height: 10),
-              TextField(
-                  style: TextStyle(fontSize: 15),
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: 'Search',
-                    labelStyle: TextStyle(
-                      color: Color(0xFF2D4739),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                      color: Color(0xFF2D4739),
-                    )),
-                  ),
-                  cursorColor: Color(0xFF2D4739)),
               SizedBox(height: 18),
+              Row(
+                children: [
+                  Expanded(
+                    child: TextField(
+                      style: TextStyle(fontSize: 15),
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(),
+                        labelText: 'Search',
+                        labelStyle: TextStyle(
+                          color: Color(0xFF2D4739),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                          color: Color(0xFF2D4739),
+                        )),
+                      ),
+                      cursorColor: Color(0xFF2D4739),
+                    ),
+                  ),
+
+                  SizedBox(width: 10),
+                  // 간격 추가
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Color(0xFF2D4739),
+                      foregroundColor: Colors.white,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(5),
+                      ),
+                      minimumSize: Size(70, 55),
+                    ),
+                    onPressed: () {
+                      //go to address api
+                    },
+                    child: Text('Search'),
+                  ),
+                ],
+              ),
+              SizedBox(height: 10),
               TextField(
                   style: TextStyle(fontSize: 15),
                   decoration: InputDecoration(
@@ -143,7 +167,15 @@ class _SignUpPreferencesState extends State<SignUpPreferences> {
                         borderRadius: BorderRadius.circular(5),
                       ),
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      foodList.add('pork');
+                      foodList.add('alcohol');
+                      foodList.add('non-halal');
+                      print(foodList);
+                      setState(() {
+                        foodList = foodList;
+                      });
+                    },
                     child: const Text(
                       'Halal',
                       style: TextStyle(
@@ -161,7 +193,11 @@ class _SignUpPreferencesState extends State<SignUpPreferences> {
                       ),
                     ),
                     onPressed: () {
-                      // Add the code to sign up with Apple
+                      foodList.add('beef');
+                      print(foodList);
+                      setState(() {
+                        foodList = foodList;
+                      });
                     },
                     child: const Text(
                       'Vegetarian',
@@ -200,9 +236,7 @@ class _SignUpPreferencesState extends State<SignUpPreferences> {
                       cursorColor: Color(0xFF2D4739),
                     ),
                   ),
-                  SizedBox(width: 18), // 버튼과의 간격 설정
-
-                  // 버튼과의 간격 설정
+                  SizedBox(width: 18),
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Color(0xFF2D4739),
@@ -237,7 +271,6 @@ class _SignUpPreferencesState extends State<SignUpPreferences> {
                   for (var f in foodList) buildFoodButton(context, f),
                 ],
               ),
-              SizedBox(height: 80),
               SizedBox(height: 30),
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
@@ -256,9 +289,7 @@ class _SignUpPreferencesState extends State<SignUpPreferences> {
                 },
                 child: const Text(
                   'Sign In',
-                  style: TextStyle(
-                    fontSize: 18,
-                  ),
+                  style: TextStyle(),
                 ),
               ),
             ],

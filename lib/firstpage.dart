@@ -38,7 +38,6 @@ class FirstPage extends StatelessWidget {
                   ),
                 ),
                 SizedBox(width: 10),
-                //make scroll
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Color(0xFF2D4739),
