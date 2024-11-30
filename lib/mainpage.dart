@@ -2,9 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:mukki/setting.dart';
 import 'package:mukki/restaurant.dart';
 
-class MainPage extends StatelessWidget {
+class MainPage extends StatefulWidget {
   const MainPage({super.key});
 
+  @override
+  _MainPageState createState() => _MainPageState();
+}
+
+class _MainPageState extends State<MainPage> {
+  final TextEditingController _textController = TextEditingController();
   Widget buildRecommendButton(BuildContext context, String label) {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
@@ -29,8 +35,8 @@ class MainPage extends StatelessWidget {
     return SizedBox(
       width: 120,
       height: 90,
-      child: TextButton(
-        style: TextButton.styleFrom(
+      child: ElevatedButton(
+        style: ElevatedButton.styleFrom(
           backgroundColor: Colors.blueGrey,
           foregroundColor: Colors.white,
           shape: RoundedRectangleBorder(
@@ -109,6 +115,7 @@ class MainPage extends StatelessWidget {
               children: [
                 Expanded(
                   child: TextField(
+                    controller: _textController,
                     style: TextStyle(fontSize: 15),
                     decoration: InputDecoration(
                       border: OutlineInputBorder(),
@@ -134,7 +141,7 @@ class MainPage extends StatelessWidget {
                     minimumSize: Size(70, 55),
                   ),
                   onPressed: () {
-                    // 주소 검색 코드 추가
+                    print("검색: ${_textController.text}");
                   },
                   child: const Text('Search'),
                 ),
@@ -145,46 +152,47 @@ class MainPage extends StatelessWidget {
               children: [
                 OutlinedButton(
                   onPressed: () {
-                    // 버튼 클릭 시 실행할 코드
-                    print("OutlinedButton 클릭됨");
+                    setState(() {
+                      _textController.text = "menu1";
+                    });
                   },
                   style: OutlinedButton.styleFrom(
                     side: BorderSide(color: Colors.grey),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(5),
                     ),
-                    padding: EdgeInsets.symmetric(
-                        horizontal: 16, vertical: 12), // 내부 여백
+                    padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                   ),
                   child: Text(
                     "menu1",
-                    style: TextStyle(color: Colors.grey), // 텍스트 색상 설정
+                    style: TextStyle(color: Colors.grey),
                   ),
                 ),
                 SizedBox(width: 10),
                 OutlinedButton(
                   onPressed: () {
-                    // 버튼 클릭 시 실행할 코드
-                    print("OutlinedButton 클릭됨");
+                    setState(() {
+                      _textController.text = "menu2";
+                    });
                   },
                   style: OutlinedButton.styleFrom(
                     side: BorderSide(color: Colors.grey),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(5),
                     ),
-                    padding: EdgeInsets.symmetric(
-                        horizontal: 16, vertical: 12), // 내부 여백
+                    padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                   ),
                   child: Text(
                     "menu2",
-                    style: TextStyle(color: Colors.grey), // 텍스트 색상 설정
+                    style: TextStyle(color: Colors.grey),
                   ),
                 ),
                 SizedBox(width: 10),
                 OutlinedButton(
                   onPressed: () {
-                    // 버튼 클릭 시 실행할 코드
-                    print("OutlinedButton 클릭됨");
+                    setState(() {
+                      _textController.text = "menu3";
+                    });
                   },
                   style: OutlinedButton.styleFrom(
                     side: BorderSide(color: Colors.grey),
