@@ -89,19 +89,6 @@ class Restaurant extends StatelessWidget {
       backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.white,
-        leading: IconButton(
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => Setting()),
-            );
-          },
-          icon: Icon(
-            size: 35,
-            Icons.menu,
-            color: Colors.black,
-          ),
-        ),
         title: Text('Hi, 은원'),
       ),
       body: SingleChildScrollView(
