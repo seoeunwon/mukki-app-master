@@ -50,8 +50,8 @@ class MainPage extends StatelessWidget {
 
   Widget restaurantButton(BuildContext context, String label) {
     return SizedBox(
-      width: double.infinity, // 버튼이 가로로 꽉 차도록 설정
-      height: 90, // 버튼의 높이 설정
+      width: double.infinity,
+      height: 90,
       child: TextButton(
           style: TextButton.styleFrom(
             backgroundColor: Colors.white,
@@ -104,7 +104,7 @@ class MainPage extends StatelessWidget {
               '📍 Address data',
               style: TextStyle(fontSize: 20),
             ),
-            SizedBox(height: 20), // Text와 TextField 사이에 여백 추가
+            SizedBox(height: 20),
             Row(
               children: [
                 Expanded(
@@ -140,29 +140,76 @@ class MainPage extends StatelessWidget {
                 ),
               ],
             ),
-            SizedBox(height: 20), // TextField와 ElevatedButton 사이에 여백 추가
+            SizedBox(height: 10),
+            Row(
+              children: [
+                OutlinedButton(
+                  onPressed: () {
+                    // 버튼 클릭 시 실행할 코드
+                    print("OutlinedButton 클릭됨");
+                  },
+                  style: OutlinedButton.styleFrom(
+                    side: BorderSide(color: Colors.grey),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(5),
+                    ),
+                    padding: EdgeInsets.symmetric(
+                        horizontal: 16, vertical: 12), // 내부 여백
+                  ),
+                  child: Text(
+                    "menu1",
+                    style: TextStyle(color: Colors.grey), // 텍스트 색상 설정
+                  ),
+                ),
+                SizedBox(width: 10),
+                OutlinedButton(
+                  onPressed: () {
+                    // 버튼 클릭 시 실행할 코드
+                    print("OutlinedButton 클릭됨");
+                  },
+                  style: OutlinedButton.styleFrom(
+                    side: BorderSide(color: Colors.grey),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(5),
+                    ),
+                    padding: EdgeInsets.symmetric(
+                        horizontal: 16, vertical: 12), // 내부 여백
+                  ),
+                  child: Text(
+                    "menu2",
+                    style: TextStyle(color: Colors.grey), // 텍스트 색상 설정
+                  ),
+                ),
+                SizedBox(width: 10),
+                OutlinedButton(
+                  onPressed: () {
+                    // 버튼 클릭 시 실행할 코드
+                    print("OutlinedButton 클릭됨");
+                  },
+                  style: OutlinedButton.styleFrom(
+                    side: BorderSide(color: Colors.grey),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(5),
+                    ),
+                    padding: EdgeInsets.symmetric(
+                        horizontal: 16, vertical: 12), // 내부 여백
+                  ),
+                  child: Text(
+                    "menu3",
+                    style: TextStyle(color: Colors.grey), // 텍스트 색상 설정
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(height: 20),
             Text(
-              "🍽️ Today's recommendation",
+              '🍽️ Find the restaurant nearby',
               style: TextStyle(fontSize: 20),
             ),
             SizedBox(height: 20),
-            SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Row(
-                  children: [
-                    buildRecommendButton(context, 'Recommend1'),
-                    SizedBox(width: 15),
-                    buildRecommendButton(context, 'Recommend2'),
-                    SizedBox(width: 15),
-                    buildRecommendButton(context, 'Recommend3'),
-                    SizedBox(width: 15),
-                    buildRecommendButton(context, 'Recommend4'),
-                  ],
-                )),
-            SizedBox(height: 20),
             Container(
               width: double.infinity,
-              height: 200,
+              height: 400,
               color: const Color.fromARGB(242, 1, 52, 77),
               child: Text(
                 '지도',
@@ -198,6 +245,29 @@ class MainPage extends StatelessWidget {
             ),
           ],
         ),
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        type: BottomNavigationBarType.fixed,
+        items: const [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.shopping_cart, color: Colors.black),
+            label: '',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home, color: Colors.black),
+            label: '',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.settings, color: Colors.black),
+            label: '',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.menu, color: Colors.black),
+            label: '',
+          ),
+        ],
+        backgroundColor: Colors.white,
+        onTap: (index) {},
       ),
     );
   }
