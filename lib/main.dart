@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
 import 'package:mukki/firstpage.dart';
 
 void main() {
+  KakaoSdk.init(nativeAppKey: "568f954c14540adb6c5972ea788bfcb7");
   runApp(MyApp());
 }
 
