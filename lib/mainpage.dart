@@ -1,6 +1,9 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:mukki/setting.dart';
 import 'package:mukki/restaurant.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({super.key});
@@ -11,6 +14,23 @@ class MainPage extends StatefulWidget {
 
 class _MainPageState extends State<MainPage> {
   final TextEditingController _textController = TextEditingController();
+  final Completer<GoogleMapController> _controller = Completer();
+
+  static const CameraPosition _initialPosition = CameraPosition(
+    target: LatLng(35.2281817, 126.8420227), // 광주과학기술원
+    zoom: 14.0,
+  );
+
+  Widget buildGoogleMap() {
+    return GoogleMap(
+      mapType: MapType.normal,
+      initialCameraPosition: _initialPosition,
+      onMapCreated: (GoogleMapController controller) {
+        _controller.complete(controller);
+      },
+    );
+  }
+
   Widget buildRecommendButton(BuildContext context, String label) {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
@@ -219,9 +239,12 @@ class _MainPageState extends State<MainPage> {
               width: double.infinity,
               height: 400,
               color: const Color.fromARGB(242, 1, 52, 77),
-              child: Text(
-                '지도',
-                style: TextStyle(fontSize: 40, color: Colors.white),
+              child: GoogleMap(
+                mapType: MapType.normal, // 일반 지도
+                initialCameraPosition: _initialPosition,
+                onMapCreated: (GoogleMapController controller) {
+                  _controller.complete(controller);
+                },
               ),
             ),
             SizedBox(height: 20),
