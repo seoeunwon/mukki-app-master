@@ -38,7 +38,11 @@ class _LoginPageState extends State<LoginPage> {
     await _secureStorage.write(key: 'access_token', value: code.accessToken);
     await _secureStorage.write(key: 'refresh_token', value: code.refreshToken);
     await _secureStorage.write(key: 'id_token', value: code.idToken);
-    print('Tokens saved!');
+    if (!mounted) return;
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => SignUpPreferences()),
+    );
   }
 
   @override
