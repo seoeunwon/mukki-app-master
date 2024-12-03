@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:mukki/mainpage.dart';
-import 'package:mukki/shared_data.dart';
-
-final _excludeFoodController = excludeFoodController;
 
 class SignUpPreferences extends StatefulWidget {
   const SignUpPreferences({super.key});
@@ -12,6 +9,11 @@ class SignUpPreferences extends StatefulWidget {
 }
 
 class _SignUpPreferencesState extends State<SignUpPreferences> {
+  String? _selectedOption; // 드롭다운 선택 항목 저장
+  final List<String> _options = ['Halal', 'Vegetarian', 'Allergy']; // 드롭다운 항목
+  final TextEditingController _excludeFoodController = TextEditingController();
+  List<String> foodList = []; // 제외 음식 목록
+
   @override
   void dispose() {
     _excludeFoodController.dispose();
@@ -20,29 +22,6 @@ class _SignUpPreferencesState extends State<SignUpPreferences> {
 
   @override
   Widget build(BuildContext context) {
-    Widget buildFoodButton(BuildContext context, String label) {
-      return ElevatedButton(
-        style: ElevatedButton.styleFrom(
-          backgroundColor: Colors.white,
-          foregroundColor: Colors.black,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(5),
-          ),
-        ),
-        onPressed: () {
-          setState(() {
-            foodList.remove(label);
-          });
-        },
-        child: Text(
-          label + '   ❎',
-          style: TextStyle(
-            fontSize: 18,
-          ),
-        ),
-      );
-    }
-
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -60,231 +39,161 @@ class _SignUpPreferencesState extends State<SignUpPreferences> {
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Image.asset('lib/pictures/logo.png', width: 100, height: 100),
-              SizedBox(height: 50),
-              Text(
+              const SizedBox(height: 50),
+              const Text(
                 'Name you want to be called',
                 textAlign: TextAlign.left,
-                style: TextStyle(
-                  fontSize: 18,
-                ),
+                style: TextStyle(fontSize: 18),
               ),
-              SizedBox(height: 18),
-              TextField(
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelStyle: TextStyle(
-                      color: Color(0xFF2D4739),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                      color: Color(0xFF2D4739),
-                    )),
+              const SizedBox(height: 18),
+              const TextField(
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(),
+                  labelStyle: TextStyle(color: Color(0xFF2D4739)),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Color(0xFF2D4739)),
                   ),
-                  cursorColor: Color(0xFF2D4739)),
-              SizedBox(height: 18),
-              Text(
-                'Add your address',
-                style: TextStyle(
-                  fontSize: 18,
                 ),
+                cursorColor: Color(0xFF2D4739),
               ),
-              SizedBox(height: 18),
+              const SizedBox(height: 18),
+              const Text(
+                'Add your address',
+                style: TextStyle(fontSize: 18),
+              ),
+              const SizedBox(height: 18),
               Row(
                 children: [
                   Expanded(
                     child: TextField(
-                      style: TextStyle(fontSize: 15),
-                      decoration: InputDecoration(
+                      style: const TextStyle(fontSize: 15),
+                      decoration: const InputDecoration(
                         border: OutlineInputBorder(),
                         labelText: 'Search',
-                        labelStyle: TextStyle(
-                          color: Color(0xFF2D4739),
-                        ),
+                        labelStyle: TextStyle(color: Color(0xFF2D4739)),
                         focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
-                          color: Color(0xFF2D4739),
-                        )),
+                          borderSide: BorderSide(color: Color(0xFF2D4739)),
+                        ),
                       ),
-                      cursorColor: Color(0xFF2D4739),
+                      cursorColor: const Color(0xFF2D4739),
                     ),
                   ),
-
-                  SizedBox(width: 10),
-                  // 간격 추가
+                  const SizedBox(width: 10),
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Color(0xFF2D4739),
+                      backgroundColor: const Color(0xFF2D4739),
                       foregroundColor: Colors.white,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(5),
                       ),
-                      minimumSize: Size(70, 55),
+                      minimumSize: const Size(70, 55),
                     ),
                     onPressed: () {
-                      //go to address api
+                      // 주소 검색 API 연동 로직
                     },
-                    child: Text('Search'),
+                    child: const Text('Search'),
                   ),
                 ],
               ),
-              SizedBox(height: 10),
-              TextField(
-                  style: TextStyle(fontSize: 15),
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: 'Additional address',
-                    labelStyle: TextStyle(
-                      color: Color(0xFF2D4739),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                      color: Color(0xFF2D4739),
-                    )),
+              const SizedBox(height: 10),
+              const TextField(
+                style: TextStyle(fontSize: 15),
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(),
+                  labelText: 'Additional address',
+                  labelStyle: TextStyle(color: Color(0xFF2D4739)),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Color(0xFF2D4739)),
                   ),
-                  cursorColor: Color(0xFF2D4739)),
-              SizedBox(height: 18),
-              Text(
+                ),
+                cursorColor: Color(0xFF2D4739),
+              ),
+              const SizedBox(height: 18),
+              const Text(
                 'Pick your preferences or',
-                style: TextStyle(
-                  fontSize: 18,
-                ),
+                style: TextStyle(fontSize: 18),
               ),
-              Text(
+              const Text(
                 'Dietary Requirements',
-                style: TextStyle(
-                  fontSize: 18,
-                ),
+                style: TextStyle(fontSize: 18),
               ),
-              SizedBox(height: 18),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Color(0xFFDAF0EE),
-                      foregroundColor: Colors.black,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(5),
-                      ),
-                    ),
-                    onPressed: () {
-                      foodList.add('pork');
-                      foodList.add('alcohol');
-                      foodList.add('non-halal');
-                      print(foodList);
-                      setState(() {
-                        foodList = foodList;
-                      });
-                    },
-                    child: const Text(
-                      'Halal',
-                      style: TextStyle(
-                        fontSize: 18,
-                      ),
-                    ),
-                  ),
-                  SizedBox(width: 18),
-                  ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Color(0xFFDAF0EE),
-                      foregroundColor: Colors.black,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(5),
-                      ),
-                    ),
-                    onPressed: () {
-                      foodList.add('beef');
-                      print(foodList);
-                      setState(() {
-                        foodList = foodList;
-                      });
-                    },
-                    child: const Text(
-                      'Vegetarian',
-                      style: TextStyle(
-                        fontSize: 18,
-                      ),
-                    ),
-                  ),
-                ],
+              const SizedBox(height: 18),
+              DropdownButton<String>(
+                value: _selectedOption,
+                hint: const Text('Select an option'),
+                items: _options.map((String option) {
+                  return DropdownMenuItem<String>(
+                    value: option,
+                    child: Text(option),
+                  );
+                }).toList(),
+                onChanged: (String? newValue) {
+                  setState(() {
+                    _selectedOption = newValue;
+                  });
+                },
               ),
-              SizedBox(height: 20),
-              Text(
+              const SizedBox(height: 20),
+              const Text(
                 "Add food you don't eat",
-                style: TextStyle(
-                  fontSize: 18,
-                ),
+                style: TextStyle(fontSize: 18),
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               Row(
                 children: [
                   Expanded(
                     child: TextField(
                       controller: _excludeFoodController,
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         border: OutlineInputBorder(
-                          borderSide: BorderSide(
-                            color: Color(0xFF2D4739),
-                          ),
+                          borderSide: BorderSide(color: Color(0xFF2D4739)),
                         ),
                         focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                            color: Color(0xFF2D4739),
-                          ),
+                          borderSide: BorderSide(color: Color(0xFF2D4739)),
                         ),
                       ),
-                      cursorColor: Color(0xFF2D4739),
+                      cursorColor: const Color(0xFF2D4739),
                     ),
                   ),
-                  SizedBox(width: 18),
+                  const SizedBox(width: 18),
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Color(0xFF2D4739),
+                      backgroundColor: const Color(0xFF2D4739),
                       foregroundColor: Colors.white,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(5),
                       ),
-                      minimumSize: Size(80, 55),
+                      minimumSize: const Size(80, 55),
                     ),
                     onPressed: () {
-                      print(_excludeFoodController.text);
-                      foodList.add(_excludeFoodController.text);
-                      _excludeFoodController.text = '';
-                      print(foodList);
-                      setState(() {
-                        foodList = foodList;
-                      });
+                      if (_excludeFoodController.text.isNotEmpty) {
+                        setState(() {
+                          foodList.add(_excludeFoodController.text);
+                          _excludeFoodController.text = '';
+                        });
+                      }
                     },
                     child: const Text(
                       'Add',
-                      style: TextStyle(
-                        fontSize: 18,
-                      ),
+                      style: TextStyle(fontSize: 18),
                     ),
                   ),
                 ],
               ),
-              SizedBox(height: 20),
-              Wrap(
-                spacing: 10,
-                children: [
-                  for (var f in foodList) buildFoodButton(context, f),
-                ],
-              ),
-              SizedBox(height: 30),
+              const SizedBox(height: 20),
+              const SizedBox(height: 30),
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Color(0xFF2D4739),
-                  foregroundColor: Color(0xFFF5F5F5),
+                  backgroundColor: const Color(0xFF2D4739),
+                  foregroundColor: const Color(0xFFF5F5F5),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(5),
                   ),
                 ),
                 onPressed: () {
-                  //navigate to mainpage
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => MainPage()),
+                    MaterialPageRoute(builder: (context) => const MainPage()),
                   );
                 },
                 child: const Text(
