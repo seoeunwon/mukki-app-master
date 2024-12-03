@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:mukki/mainpage.dart';
-import 'package:mukki/setting.dart';
 
 class Restaurant extends StatelessWidget {
   const Restaurant({super.key});
