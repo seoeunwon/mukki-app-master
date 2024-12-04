@@ -8,7 +8,6 @@ final _excludeFoodController = excludeFoodController;
 
 class Setting extends StatefulWidget {
   const Setting({super.key});
-
   @override
   State<Setting> createState() => _SettingState();
 }
@@ -72,12 +71,14 @@ class _SettingState extends State<Setting> {
                     ),
                     SizedBox(width: 30),
                     Text(
-                      '은원님\n환영합니다!',
+                      '$username님\n환영합니다!',
                       style: TextStyle(fontSize: 20, color: Colors.black),
                     ),
                   ],
                 ),
               ),
+              SizedBox(height: 20),
+              Text('Status: $option', style: TextStyle(fontSize: 20)),
               SizedBox(height: 20),
               Row(
                 children: [
@@ -119,6 +120,7 @@ class _SettingState extends State<Setting> {
                       setState(() {
                         foodList = foodList;
                       });
+                      print('username: $username');
                     },
                     child: const Text(
                       'Add',

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mukki/mainpage.dart';
+import 'package:mukki/shared_data.dart';
 
 class SignUpPreferences extends StatefulWidget {
   const SignUpPreferences({super.key});
@@ -9,10 +10,11 @@ class SignUpPreferences extends StatefulWidget {
 }
 
 class _SignUpPreferencesState extends State<SignUpPreferences> {
-  String? _selectedOption; // 드롭다운 선택 항목 저장
-  final List<String> _options = ['Halal', 'Vegetarian', 'Allergy']; // 드롭다운 항목
+  String? _selectedOption;
+
+  final List<String> _options = ['Halal', 'Vegetarian', 'Allergy'];
   final TextEditingController _excludeFoodController = TextEditingController();
-  List<String> foodList = []; // 제외 음식 목록
+  final TextEditingController _usernameController = TextEditingController();
 
   @override
   void dispose() {
@@ -46,15 +48,42 @@ class _SignUpPreferencesState extends State<SignUpPreferences> {
                 style: TextStyle(fontSize: 18),
               ),
               const SizedBox(height: 18),
-              const TextField(
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelStyle: TextStyle(color: Color(0xFF2D4739)),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Color(0xFF2D4739)),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Expanded(
+                    child: TextField(
+                      controller: _usernameController,
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(),
+                        labelStyle: TextStyle(color: Color(0xFF2D4739)),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: Color(0xFF2D4739)),
+                        ),
+                      ),
+                      cursorColor: Color(0xFF2D4739),
+                    ),
                   ),
-                ),
-                cursorColor: Color(0xFF2D4739),
+                  SizedBox(width: 10), // TextField와 Button 사이 간격 추가
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color(0xFF2D4739),
+                      foregroundColor: Colors.white,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(5),
+                      ),
+                      minimumSize: const Size(70, 55),
+                    ),
+                    onPressed: () {
+                      setState(() {
+                        username = _usernameController.text;
+                        print('Username: $username');
+                        username = username;
+                      });
+                    },
+                    child: Text('Submit'),
+                  ),
+                ],
               ),
               const SizedBox(height: 18),
               const Text(
@@ -130,6 +159,7 @@ class _SignUpPreferencesState extends State<SignUpPreferences> {
                 onChanged: (String? newValue) {
                   setState(() {
                     _selectedOption = newValue;
+                    option = _selectedOption!;
                   });
                 },
               ),

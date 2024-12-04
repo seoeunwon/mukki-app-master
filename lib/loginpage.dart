@@ -98,6 +98,28 @@ class _LoginPageState extends State<LoginPage> {
               ),
             ),
             SizedBox(height: 20),
+            TextButton(
+                style: TextButton.styleFrom(
+                  backgroundColor: Colors.transparent,
+                  overlayColor: Colors.transparent,
+                  textStyle: TextStyle(
+                    color: Colors.black,
+                    fontSize: 20,
+                  ),
+                ),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => SignUpPreferences()),
+                  );
+                },
+                child: Text(
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 20,
+                    ),
+                    'Use without Log In')),
           ],
         ),
       ),

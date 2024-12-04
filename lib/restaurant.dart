@@ -88,7 +88,6 @@ class Restaurant extends StatelessWidget {
       backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.white,
-        title: Text('Hi, 은원'),
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(30.0),
