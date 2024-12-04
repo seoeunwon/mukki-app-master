@@ -21,6 +21,20 @@ class _MainPageState extends State<MainPage> {
     zoom: 14.0,
   );
 
+  Widget resPic(BuildContext context, String name) {
+    return Container(
+      width: 120, // 이미지 너비
+      height: 90, // 이미지 높이
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10), // 둥근 모서리
+        color: Colors.green, // 초록색 배경 (이미지 로드 전)
+      ),
+      child: ClipRRect(
+          borderRadius: BorderRadius.circular(10), // 이미지도 둥글게
+          child: Image.asset('lib/pictures/res1.png')),
+    );
+  }
+
   Widget buildGoogleMap() {
     return GoogleMap(
       mapType: MapType.normal,
@@ -48,29 +62,6 @@ class _MainPageState extends State<MainPage> {
         );
       },
       child: Text(label),
-    );
-  }
-
-  Widget resPic(BuildContext context, String label) {
-    return SizedBox(
-      width: 120,
-      height: 90,
-      child: ElevatedButton(
-        style: ElevatedButton.styleFrom(
-          backgroundColor: Colors.blueGrey,
-          foregroundColor: Colors.white,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(5),
-          ),
-        ),
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => Restaurant()),
-          );
-        },
-        child: Text(label),
-      ),
     );
   }
 
@@ -186,44 +177,44 @@ class _MainPageState extends State<MainPage> {
               ),
             ),
             SizedBox(height: 20),
-            // Row(
-            //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            //   children: [
-            //     resPic(context, 'res1'),
-            //     SizedBox(width: 10),
-            //     Expanded(child: restaurantButton(context, 'res1')),
-            //   ],
-            // ),
-            // SizedBox(height: 10),
-            // Row(
-            //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            //   children: [
-            //     resPic(context, 'res2'),
-            //     SizedBox(width: 10),
-            //     Expanded(child: restaurantButton(context, 'res2')),
-            //   ],
-            // ),
-            // SizedBox(height: 10),
-            // Row(
-            //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            //   children: [
-            //     resPic(context, 'res3'),
-            //     SizedBox(width: 10),
-            //     Expanded(child: restaurantButton(context, 'res3')),
-            //   ],
-            // ),
-            for (int i = 0; i < 3; i++)
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 5),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    resPic(context, 'res$i'),
-                    SizedBox(width: 10),
-                    Expanded(child: restaurantButton(context, 'res$i')),
-                  ],
-                ),
-              ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                resPic(context, 'res1'),
+                SizedBox(width: 10),
+                Expanded(child: restaurantButton(context, 'res1')),
+              ],
+            ),
+            SizedBox(height: 10),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                resPic(context, 'res2'),
+                SizedBox(width: 10),
+                Expanded(child: restaurantButton(context, 'res2')),
+              ],
+            ),
+            SizedBox(height: 10),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                resPic(context, 'res3'),
+                SizedBox(width: 10),
+                Expanded(child: restaurantButton(context, 'res3')),
+              ],
+            ),
+            // for (int i = 0; i < 3; i++)
+            //   Padding(
+            //     padding: const EdgeInsets.symmetric(vertical: 5),
+            //     child: Row(
+            //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            //       children: [
+            //         resPic(context, 'res$i'),
+            //         SizedBox(width: 10),
+            //         Expanded(child: restaurantButton(context, 'res$i')),
+            //       ],
+            //     ),
+            //   ),
           ],
         ),
       ),
