@@ -78,7 +78,10 @@ class _SettingState extends State<Setting> {
                 ),
               ),
               SizedBox(height: 20),
-              Text('Status: $option', style: TextStyle(fontSize: 20)),
+              Text(
+                'Status: ${selectedOptions.join(', ')}',
+                style: TextStyle(fontSize: 20),
+              ),
               SizedBox(height: 20),
               Row(
                 children: [

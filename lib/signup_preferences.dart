@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mukki/mainpage.dart';
 import 'package:mukki/shared_data.dart';
+import 'package:dio/dio.dart';
 
 class SignUpPreferences extends StatefulWidget {
   const SignUpPreferences({super.key});
@@ -10,16 +11,42 @@ class SignUpPreferences extends StatefulWidget {
 }
 
 class _SignUpPreferencesState extends State<SignUpPreferences> {
-  String? _selectedOption;
-
   final List<String> _options = ['Halal', 'Vegetarian', 'Allergy'];
+  final List<String> _selectedOptions = [];
   final TextEditingController _excludeFoodController = TextEditingController();
   final TextEditingController _usernameController = TextEditingController();
+
+  bool vegan = false;
+  bool halal = false;
+  bool peanut = false;
 
   @override
   void dispose() {
     _excludeFoodController.dispose();
     super.dispose();
+  }
+
+  Future<void> fetchFilteredRestaurants() async {
+    // 옵션에 따라 필터 값 설정
+    vegan = _selectedOptions.contains('Vegetarian');
+    halal = _selectedOptions.contains('Halal');
+    peanut = _selectedOptions.contains('Allergy');
+    final String url =
+        'http://localhost:3000/restaurants/filteredLIst?vegan=$vegan&halal=$halal&peanut=$peanut';
+    try {
+      // dio를 사용하여 GET 요청 보내기
+      Dio dio = Dio();
+      Response response = await dio.get(url);
+
+      if (response.statusCode == 200) {
+        final List<dynamic> data = response.data;
+        print('API Response: $data'); // 응답 확인
+      } else {
+        print('Failed to load data: ${response.statusCode}');
+      }
+    } catch (e) {
+      print('Error occurred: $e');
+    }
   }
 
   @override
@@ -147,25 +174,33 @@ class _SignUpPreferencesState extends State<SignUpPreferences> {
                 style: TextStyle(fontSize: 18),
               ),
               const SizedBox(height: 18),
-              DropdownButton<String>(
-                value: _selectedOption,
-                hint: const Text('Select an option'),
-                items: _options.map((String option) {
-                  return DropdownMenuItem<String>(
-                    value: option,
-                    child: Text(option),
-                  );
-                }).toList(),
-                onChanged: (String? newValue) {
-                  setState(() {
-                    _selectedOption = newValue;
-                    option = _selectedOption!;
-                  });
-                },
-              ),
+              // Checkbox로 여러 옵션 선택 가능
+              for (String option in _options)
+                Row(
+                  children: [
+                    Checkbox(
+                      value: _selectedOptions.contains(option),
+                      onChanged: (bool? value) {
+                        setState(() {
+                          if (value == true) {
+                            _selectedOptions.add(option);
+                          } else {
+                            _selectedOptions.remove(option);
+                          }
+                          // selectedOptions 업데이트
+                          selectedOptions = List.from(_selectedOptions);
+                          print('Selected Options: $selectedOptions');
+                          fetchFilteredRestaurants();
+                        });
+                      },
+                    ),
+                    Text(option),
+                  ],
+                ),
+
               const SizedBox(height: 20),
               const Text(
-                "Add food you don't eat",
+                "Allergic Food",
                 style: TextStyle(fontSize: 18),
               ),
               const SizedBox(height: 20),

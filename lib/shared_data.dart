@@ -5,4 +5,4 @@ List<String> foodList = [];
 
 final TextEditingController usernameController = TextEditingController();
 String username = '';
-String option = '';
+List<String> selectedOptions = [];
