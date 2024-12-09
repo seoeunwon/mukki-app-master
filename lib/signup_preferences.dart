@@ -32,9 +32,6 @@ class _SignUpPreferencesState extends State<SignUpPreferences> {
     // 사용자가 입력한 데이터 수집
     final Map<String, dynamic> userData = {
       "username": _usernameController.text,
-      "is_vegan": vegan,
-      "is_halal": halal,
-      "is_peanut": peanut,
     };
 
     try {
@@ -64,19 +61,77 @@ class _SignUpPreferencesState extends State<SignUpPreferences> {
     }
   }
 
+  Future<void> addPreferences() async {
+    final String id = await fetchUserId(username);
+    final String url = 'http://localhost:3000/user/preference/$id';
+
+    // 사용자가 입력한 데이터 수집
+    final Map<String, dynamic> userData = {
+      "is_user_vegan": vegan,
+      "is_user_halal": halal,
+      "is_user_peanut": peanut,
+    };
+
+    try {
+      Dio dio = Dio();
+      Response response = await dio.post(
+        url,
+        data: userData,
+        options: Options(
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        ),
+      );
+
+      if (response.statusCode == 200) {
+        print('User added successfully: ${response.data}');
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const MainPage()),
+        );
+      } else {
+        print('Failed to add user: ${response.statusCode}');
+      }
+    } catch (e) {
+      print('Error occurred: $e');
+    }
+  }
+
+  Future<String> fetchUserId(String username) async {
+    try {
+      Dio dio = Dio();
+      final response = await dio.post(
+        'http://localhost:3000/user/getId', // userID를 받아오는 POST API URL
+        data: {
+          "username": username, // 사용자가 입력한 username을 서버로 전송
+        },
+      );
+
+      if (response.statusCode == 200) {
+        return response.data['userId']; // 서버에서 반환한 userId를 사용
+      } else {
+        throw Exception('Failed to fetch user ID');
+      }
+    } on DioError catch (e) {
+      print('Error fetching user ID: $e');
+      return '';
+    }
+  }
+
   Future<void> fetchFilteredRestaurants() async {
     vegan = _selectedOptions.contains('Vegetarian');
     halal = _selectedOptions.contains('Halal');
     peanut = _selectedOptions.contains('Allergy');
+
     final String url =
-        final String url = 'http://localhost:3000/restaurants/filteredLIst?vegan=$vegan&halal=$halal&peanut=$peanut';
+        'http://localhost:3000/restaurants/filteredLIst?vegan=$vegan&halal=$halal&peanut=$peanut';
 
     try {
       Dio dio = Dio();
       Response response = await dio.get(url);
 
       if (response.statusCode == 200) {
-        final List<dynamic> data = response.data;
         print('success');
       } else {
         print('Failed to load data: ${response.statusCode}');
@@ -139,6 +194,7 @@ class _SignUpPreferencesState extends State<SignUpPreferences> {
                       minimumSize: const Size(70, 55),
                     ),
                     onPressed: () {
+                      addUserToDatabase();
                       setState(() {
                         username = _usernameController.text;
                         print('Username: $username');
@@ -293,7 +349,7 @@ class _SignUpPreferencesState extends State<SignUpPreferences> {
                   ),
                 ),
                 onPressed: () {
-                  addUserToDatabase();
+                  addPreferences();
                   Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => const MainPage()),
