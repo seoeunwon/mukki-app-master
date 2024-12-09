@@ -26,21 +26,58 @@ class _SignUpPreferencesState extends State<SignUpPreferences> {
     super.dispose();
   }
 
+  Future<void> addUserToDatabase() async {
+    final String url = 'http://13.124.180.13:80/user/register';
+
+    // 사용자가 입력한 데이터 수집
+    final Map<String, dynamic> userData = {
+      "username": _usernameController.text,
+      "is_vegan": vegan,
+      "is_halal": halal,
+      "is_peanut": peanut,
+    };
+
+    try {
+      Dio dio = Dio();
+      Response response = await dio.post(
+        url,
+        data: userData,
+        options: Options(
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        ),
+      );
+
+      if (response.statusCode == 200) {
+        print('User added successfully: ${response.data}');
+        // 성공 시 메인 페이지로 이동
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const MainPage()),
+        );
+      } else {
+        print('Failed to add user: ${response.statusCode}');
+      }
+    } catch (e) {
+      print('Error occurred: $e');
+    }
+  }
+
   Future<void> fetchFilteredRestaurants() async {
-    // 옵션에 따라 필터 값 설정
     vegan = _selectedOptions.contains('Vegetarian');
     halal = _selectedOptions.contains('Halal');
     peanut = _selectedOptions.contains('Allergy');
     final String url =
-        'http://localhost:3000/restaurants/filteredLIst?vegan=$vegan&halal=$halal&peanut=$peanut';
+        'http://13.124.180.13/restaurants/filteredLIst?vegan=$vegan&halal=$halal&peanut=$peanut';
+
     try {
-      // dio를 사용하여 GET 요청 보내기
       Dio dio = Dio();
       Response response = await dio.get(url);
 
       if (response.statusCode == 200) {
         final List<dynamic> data = response.data;
-        print('API Response: $data'); // 응답 확인
+        print('success');
       } else {
         print('Failed to load data: ${response.statusCode}');
       }
@@ -256,6 +293,7 @@ class _SignUpPreferencesState extends State<SignUpPreferences> {
                   ),
                 ),
                 onPressed: () {
+                  addUserToDatabase();
                   Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => const MainPage()),
