@@ -6,3 +6,5 @@ List<String> foodList = [];
 final TextEditingController usernameController = TextEditingController();
 String username = '';
 List<String> selectedOptions = [];
+String url = '';
+List<dynamic> restaurantData = [];

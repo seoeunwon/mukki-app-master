@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:mukki/setting.dart';
 import 'package:mukki/restaurant.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:mukki/shared_data.dart';
+import 'package:dio/dio.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({super.key});
@@ -20,6 +22,25 @@ class _MainPageState extends State<MainPage> {
     target: LatLng(35.2281817, 126.8420227), // 광주과학기술원
     zoom: 14.0,
   );
+
+  Future<List<dynamic>> fetchRestaurantData() async {
+    try {
+      final Dio dio = Dio();
+      final response = await dio.get(url);
+
+      if (response.statusCode == 200) {
+        setState(() {
+          restaurantData = response.data as List<dynamic>; // 데이터를 상태 변수에 저장
+        });
+        return restaurantData;
+      } else {
+        return [];
+      }
+    } catch (e) {
+      print('Error fetching data: $e');
+      return [];
+    }
+  }
 
   Widget buildGoogleMap() {
     return GoogleMap(
@@ -51,25 +72,34 @@ class _MainPageState extends State<MainPage> {
     );
   }
 
-  Widget resPic(BuildContext context, String label) {
+  Widget resPic(BuildContext context, String imageUrl) {
     return SizedBox(
       width: 120,
       height: 90,
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
-          backgroundColor: Colors.blueGrey,
-          foregroundColor: Colors.white,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(5),
           ),
         ),
         onPressed: () {
+          print('dkssyd');
           Navigator.push(
             context,
             MaterialPageRoute(builder: (context) => Restaurant()),
           );
         },
-        child: Text(label),
+        child: Image.network(
+          imageUrl,
+          fit: BoxFit.cover,
+          loadingBuilder: (context, child, loadingProgress) {
+            if (loadingProgress == null) return child;
+            return const Center(child: CircularProgressIndicator());
+          },
+          errorBuilder: (context, error, stackTrace) {
+            return const Icon(Icons.error, color: Colors.red);
+          },
+        ),
       ),
     );
   }
@@ -94,15 +124,14 @@ class _MainPageState extends State<MainPage> {
           },
           child: Align(
             alignment: Alignment.centerLeft,
-            child: Text(
-              "This restaurant\ndoesn't exist",
-            ),
+            child: Text(label),
           )),
     );
   }
 
   @override
   Widget build(BuildContext context) {
+    fetchRestaurantData();
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -162,6 +191,7 @@ class _MainPageState extends State<MainPage> {
                   ),
                   onPressed: () {
                     print("검색: ${_textController.text}");
+                    fetchRestaurantData();
                   },
                   child: const Text('Search'),
                 ),
@@ -186,41 +216,23 @@ class _MainPageState extends State<MainPage> {
               ),
             ),
             SizedBox(height: 20),
-            // Row(
-            //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            //   children: [
-            //     resPic(context, 'res1'),
-            //     SizedBox(width: 10),
-            //     Expanded(child: restaurantButton(context, 'res1')),
-            //   ],
-            // ),
-            // SizedBox(height: 10),
-            // Row(
-            //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            //   children: [
-            //     resPic(context, 'res2'),
-            //     SizedBox(width: 10),
-            //     Expanded(child: restaurantButton(context, 'res2')),
-            //   ],
-            // ),
-            // SizedBox(height: 10),
-            // Row(
-            //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            //   children: [
-            //     resPic(context, 'res3'),
-            //     SizedBox(width: 10),
-            //     Expanded(child: restaurantButton(context, 'res3')),
-            //   ],
-            // ),
-            for (int i = 0; i < 3; i++)
+            Text(
+              '🍔 Near restaurants',
+              style: TextStyle(fontSize: 20),
+            ),
+            SizedBox(height: 20),
+            for (int i = 0; i < restaurantData.length; i++)
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 5),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    resPic(context, 'res$i'),
-                    SizedBox(width: 10),
-                    Expanded(child: restaurantButton(context, 'res$i')),
+                    resPic(context, restaurantData[i]['photo']['file_path']),
+                    const SizedBox(width: 10),
+                    Expanded(
+                      child:
+                          restaurantButton(context, restaurantData[i]['name']),
+                    ),
                   ],
                 ),
               ),

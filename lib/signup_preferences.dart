@@ -15,7 +15,7 @@ class _SignUpPreferencesState extends State<SignUpPreferences> {
   final List<String> _selectedOptions = [];
   final TextEditingController _excludeFoodController = TextEditingController();
   final TextEditingController _usernameController = TextEditingController();
-
+  int userid = 0;
   bool vegan = false;
   bool halal = false;
   bool peanut = false;
@@ -27,20 +27,17 @@ class _SignUpPreferencesState extends State<SignUpPreferences> {
   }
 
   Future<void> addUserToDatabase() async {
-    final String url = 'http://localhost:3000/user/register';
+    final String registerUrl = 'http://localhost:3000/user/register';
 
     // 사용자가 입력한 데이터 수집
     final Map<String, dynamic> userData = {
       "username": _usernameController.text,
-      "is_vegan": vegan,
-      "is_halal": halal,
-      "is_peanut": peanut,
     };
 
     try {
       Dio dio = Dio();
       Response response = await dio.post(
-        url,
+        registerUrl,
         data: userData,
         options: Options(
           headers: {
@@ -49,18 +46,50 @@ class _SignUpPreferencesState extends State<SignUpPreferences> {
         ),
       );
 
-      if (response.statusCode == 200) {
+      if (response.statusCode == 201) {
         print('User added successfully: ${response.data}');
-        // 성공 시 메인 페이지로 이동
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => const MainPage()),
-        );
+        userid = response.data['user_id'];
+        print(userid);
+      } else {
+        print('User added successfully: ${response.data}');
+        userid = response.data['user_id'];
+        print(userid);
+      }
+    } catch (e) {
+      print('Error occurred: $e');
+    }
+  }
+
+  Future<void> addPreferences() async {
+    print(userid);
+    final String useridurl = 'http://localhost:3000/user/preference/$userid';
+
+    // 사용자가 입력한 데이터 수집
+    final Map<String, dynamic> userData = {
+      "is_user_vegan": vegan,
+      "is_user_halal": halal,
+      "is_user_peanut": peanut,
+    };
+
+    try {
+      Dio dio = Dio();
+      Response response = await dio.post(
+        useridurl,
+        data: userData,
+        options: Options(
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        ),
+      );
+
+      if (response.statusCode == 201) {
+        print('User added successfully: ${response.data}');
       } else {
         print('Failed to add user: ${response.statusCode}');
       }
     } catch (e) {
-      print('Error occurred: $e');
+      print('에러남 ㅅㄱ $e');
     }
   }
 
@@ -69,7 +98,7 @@ class _SignUpPreferencesState extends State<SignUpPreferences> {
     halal = _selectedOptions.contains('Halal');
     peanut = _selectedOptions.contains('Allergy');
 
-    final String url =
+    url =
         'http://localhost:3000/restaurants/filteredLIst?vegan=$vegan&halal=$halal&peanut=$peanut';
 
     try {
@@ -78,6 +107,7 @@ class _SignUpPreferencesState extends State<SignUpPreferences> {
 
       if (response.statusCode == 200) {
         final List<dynamic> data = response.data;
+        print(data);
         print('success');
       } else {
         print('Failed to load data: ${response.statusCode}');
@@ -140,6 +170,7 @@ class _SignUpPreferencesState extends State<SignUpPreferences> {
                       minimumSize: const Size(70, 55),
                     ),
                     onPressed: () {
+                      addUserToDatabase();
                       setState(() {
                         username = _usernameController.text;
                         print('Username: $username');
@@ -294,7 +325,7 @@ class _SignUpPreferencesState extends State<SignUpPreferences> {
                   ),
                 ),
                 onPressed: () {
-                  addUserToDatabase();
+                  addPreferences();
                   Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => const MainPage()),
