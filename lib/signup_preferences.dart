@@ -68,8 +68,9 @@ class _SignUpPreferencesState extends State<SignUpPreferences> {
     vegan = _selectedOptions.contains('Vegetarian');
     halal = _selectedOptions.contains('Halal');
     peanut = _selectedOptions.contains('Allergy');
+
     final String url =
-        final String url = 'http://localhost:3000/restaurants/filteredLIst?vegan=$vegan&halal=$halal&peanut=$peanut';
+        'http://localhost:3000/restaurants/filteredLIst?vegan=$vegan&halal=$halal&peanut=$peanut';
 
     try {
       Dio dio = Dio();
