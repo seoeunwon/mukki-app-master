@@ -16,25 +16,29 @@ class FirstPage extends StatelessWidget {
             SizedBox(height: 10),
             Image.asset('lib/pictures/logo.png', width: 200, height: 200),
             SizedBox(height: 10),
-            Text('Language Settings',
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+            Text(
+              '앱 설정', // Language Settings를 앱 설정으로 변경
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            ),
             SizedBox(height: 20),
+            // 언어 선택 드롭다운 추가
             Row(
               children: [
                 Expanded(
-                  child: SizedBox(
-                    child: TextField(
-                        decoration: InputDecoration(
-                          border: OutlineInputBorder(),
-                          labelStyle: TextStyle(
-                            color: Color(0xFF2D4739),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                            color: Color(0xFF2D4739),
-                          )),
-                        ),
-                        cursorColor: Color(0xFF2D4739)),
+                  child: DropdownButton<String>(
+                    isExpanded: true,
+                    hint: Text("언어 선택"),
+                    items: <String>['한국어', 'English']
+                        .map<DropdownMenuItem<String>>((String value) {
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child: Text(value),
+                      );
+                    }).toList(),
+                    onChanged: (String? newValue) {
+                      // 여기서 언어 변경 로직을 추가하면 됩니다.
+                      // 예: 새로운 언어 설정 저장
+                    },
                   ),
                 ),
                 SizedBox(width: 10),
@@ -48,15 +52,16 @@ class FirstPage extends StatelessWidget {
                     minimumSize: Size(80, 55),
                   ),
                   onPressed: () {
+                    // 설정 완료 후 로그인 페이지로 이동
                     Navigator.push(
                       context,
                       MaterialPageRoute(builder: (context) => LoginPage()),
                     );
                   },
-                  child: const Text('Set'),
+                  child: const Text('저장'),
                 ),
               ],
-            )
+            ),
           ],
         ),
       ),
