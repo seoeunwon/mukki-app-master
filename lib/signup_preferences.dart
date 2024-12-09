@@ -27,7 +27,7 @@ class _SignUpPreferencesState extends State<SignUpPreferences> {
   }
 
   Future<void> addUserToDatabase() async {
-    final String url = 'http://13.124.180.13:80/user/register';
+    final String url = 'http://localhost:3000/user/register';
 
     // 사용자가 입력한 데이터 수집
     final Map<String, dynamic> userData = {
@@ -69,7 +69,7 @@ class _SignUpPreferencesState extends State<SignUpPreferences> {
     halal = _selectedOptions.contains('Halal');
     peanut = _selectedOptions.contains('Allergy');
     final String url =
-        'http://13.124.180.13/restaurants/filteredLIst?vegan=$vegan&halal=$halal&peanut=$peanut';
+        final String url = 'http://localhost:3000/restaurants/filteredLIst?vegan=$vegan&halal=$halal&peanut=$peanut';
 
     try {
       Dio dio = Dio();
