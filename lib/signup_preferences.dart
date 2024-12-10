@@ -92,6 +92,29 @@ class _SignUpPreferencesState extends State<SignUpPreferences> {
     }
   }
 
+  Widget buildFoodButton(BuildContext context, String label) {
+    return ElevatedButton(
+      style: ElevatedButton.styleFrom(
+        backgroundColor: Colors.white,
+        foregroundColor: Colors.black,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(5),
+        ),
+      ),
+      onPressed: () {
+        setState(() {
+          foodList.remove(label);
+        });
+      },
+      child: Text(
+        label + '   ❎',
+        style: TextStyle(
+          fontSize: 18,
+        ),
+      ),
+    );
+  }
+
   Future<void> fetchFilteredRestaurants() async {
     vegan = _selectedOptions.contains('Vegetarian');
     halal = _selectedOptions.contains('Halal');
@@ -290,29 +313,39 @@ class _SignUpPreferencesState extends State<SignUpPreferences> {
                   const SizedBox(width: 18),
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xFF2D4739),
+                      backgroundColor: Color(0xFF2D4739),
                       foregroundColor: Colors.white,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(5),
                       ),
-                      minimumSize: const Size(80, 55),
+                      minimumSize: Size(80, 55),
                     ),
                     onPressed: () {
-                      if (_excludeFoodController.text.isNotEmpty) {
-                        setState(() {
-                          foodList.add(_excludeFoodController.text);
-                          _excludeFoodController.text = '';
-                        });
-                      }
+                      print(_excludeFoodController.text);
+                      foodList.add(_excludeFoodController.text);
+                      _excludeFoodController.text = '';
+                      print(foodList);
+                      setState(() {
+                        foodList = foodList;
+                      });
+                      print('username: $username');
                     },
                     child: const Text(
                       'Add',
-                      style: TextStyle(fontSize: 18),
+                      style: TextStyle(
+                        fontSize: 18,
+                      ),
                     ),
                   ),
                 ],
               ),
-              const SizedBox(height: 20),
+              SizedBox(height: 20),
+              Wrap(
+                spacing: 10,
+                children: [
+                  for (var f in foodList) buildFoodButton(context, f),
+                ],
+              ),
               const SizedBox(height: 30),
               ElevatedButton(
                 style: ElevatedButton.styleFrom(

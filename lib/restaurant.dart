@@ -11,27 +11,33 @@ class Restaurant extends StatefulWidget {
 }
 
 class _RestaurantState extends State<Restaurant> {
-  List<dynamic> resdaTa = [];
-  Future<void> fetchRestaurant() async {
+  List<dynamic> resData = [];
+  String resName = '';
+  String resAdd = '';
+  Future<List<dynamic>> fetchRestaurant() async {
     try {
       final Dio dio = Dio();
-      final response = await dio
-          .get('http://13.124.180.13/restaurants/info/${widget.resId}');
+      final response = await dio.get(url);
 
       if (response.statusCode == 200) {
         setState(() {
-          resdaTa = response.data;
+          resData = response.data as List<dynamic>;
         });
+        var filteredData = resData
+            .where((restaurant) => restaurant['restaurant_id'] == widget.resId)
+            .toList();
+        resName = filteredData[0]['name'];
+        var filteredData1 = resData
+            .where((restaurant) => restaurant['restaurant_id'] == widget.resId)
+            .toList();
+        resAdd = filteredData1[0]['address_gu'];
+        return resData;
       } else {
-        setState(() {
-          resdaTa = response.data;
-        });
+        return [];
       }
     } catch (e) {
       print('Error fetching data: $e');
-      setState(() {
-        resdaTa = [];
-      });
+      return [];
     }
   }
 
@@ -61,7 +67,7 @@ class _RestaurantState extends State<Restaurant> {
   Widget menuButton(BuildContext context, String label) {
     return SizedBox(
       width: double.infinity,
-      height: 90,
+      height: 35,
       child: TextButton(
           style: TextButton.styleFrom(
             backgroundColor: Colors.white,
@@ -146,52 +152,12 @@ class _RestaurantState extends State<Restaurant> {
     );
   }
 
-  // Widget bigfoodPic(BuildContext context, String label) {
-  //   return SizedBox(
-  //     width: 200,
-  //     height: 150,
-  //     child: TextButton(
-  //       style: TextButton.styleFrom(
-  //         backgroundColor: Colors.blueGrey,
-  //         foregroundColor: Colors.white,
-  //         shape: RoundedRectangleBorder(
-  //           borderRadius: BorderRadius.circular(5),
-  //         ),
-  //       ),
-  //       onPressed: () {},
-  //       child: Text(label),
-  //     ),
-  //   );
-  // }
-
-  Widget restaurantButton(BuildContext context, String label) {
-    return SizedBox(
-      width: double.infinity, // 버튼이 가로로 꽉 차도록 설정
-      height: 90, // 버튼의 높이 설정
-      child: TextButton(
-          style: TextButton.styleFrom(
-            backgroundColor: Colors.white,
-            foregroundColor: Colors.black,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(5),
-            ),
-          ),
-          onPressed: () {},
-          child: Align(
-            alignment: Alignment.centerLeft,
-            child: Text(
-              "This food\ndoesn't exist",
-            ),
-          )),
-    );
-  }
-
   @override
   void initState() {
     super.initState();
     fetchMenuData();
     fetchRestaurant();
-    print(resdaTa);
+    print(widget.resId);
   }
 
   @override
@@ -212,12 +178,12 @@ class _RestaurantState extends State<Restaurant> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'gk',
+                    resName,
                     style: TextStyle(fontSize: 30),
                   ),
                   SizedBox(height: 20),
                   Text(
-                    '📍 Address data',
+                    resAdd,
                     style: TextStyle(fontSize: 20),
                   ),
                 ],
@@ -225,17 +191,13 @@ class _RestaurantState extends State<Restaurant> {
             ),
             SizedBox(height: 20),
             Align(
-              alignment: Alignment.centerLeft,
-              child: Text(
-                'Signature Food',
-                style: TextStyle(fontSize: 25),
-              ),
-            ),
-            SizedBox(height: 10),
+                alignment: Alignment.centerLeft,
+                child: Text("🟢: vegan, 🟡: halal, 🔴: peanut",
+                    style: TextStyle(fontSize: 20))),
             SizedBox(height: 30),
             Align(
               alignment: Alignment.centerLeft,
-              child: Text("All food", style: TextStyle(fontSize: 25)),
+              child: Text("🍎 Food List", style: TextStyle(fontSize: 25)),
             ),
             SizedBox(
               height: 20,
@@ -248,10 +210,64 @@ class _RestaurantState extends State<Restaurant> {
                   children: [
                     foodPic(context, menuItems[i]['photo']['file_path']),
                     SizedBox(width: 10),
-                    Expanded(child: menuButton(context, menuItems[i]['name'])),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Align(
+                            alignment: Alignment.centerLeft,
+                            child: Text(
+                              menuItems[i]['name'],
+                              style: TextStyle(fontSize: 18),
+                            ),
+                          ),
+                          Align(
+                            alignment: Alignment.centerLeft,
+                            child: Text(
+                              '${menuItems[i]['price']} ₩', // 문자열 보간법으로 값과 ₩ 결합
+                              style: TextStyle(fontSize: 18),
+                            ),
+                          ),
+                          Row(
+                            children: [
+                              if (menuItems[i]['is_menu_vegan'] == true)
+                                Container(
+                                  margin: const EdgeInsets.only(left: 5),
+                                  width: 15,
+                                  height: 15,
+                                  decoration: BoxDecoration(
+                                    color: Colors.green,
+                                    shape: BoxShape.circle,
+                                  ),
+                                ),
+                              if (menuItems[i]['is_menu_halal'] == true)
+                                Container(
+                                  margin: const EdgeInsets.only(left: 5),
+                                  width: 15,
+                                  height: 15,
+                                  decoration: BoxDecoration(
+                                    color: Colors.yellow,
+                                    shape: BoxShape.circle,
+                                  ),
+                                ),
+                              if (menuItems[i]['is_menu_peanut'] == true)
+                                Container(
+                                  margin: const EdgeInsets.only(left: 5),
+                                  width: 15,
+                                  height: 15,
+                                  decoration: BoxDecoration(
+                                    color: Colors.red,
+                                    shape: BoxShape.circle,
+                                  ),
+                                ),
+                            ],
+                          )
+                        ],
+                      ),
+                    ),
                   ],
                 ),
-              ),
+              )
           ],
         ),
       ),
