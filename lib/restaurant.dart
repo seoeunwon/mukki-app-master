@@ -21,7 +21,7 @@ class _RestaurantState extends State<Restaurant> {
         });
       } else {
         setState(() {
-          menuItems = [];
+          menuItems = response.data as List<dynamic>;
         });
       }
     } catch (e) {
@@ -211,18 +211,6 @@ class _RestaurantState extends State<Restaurant> {
               ),
             ),
             SizedBox(height: 10),
-            SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(
-                children: [
-                  for (int i = 0; i < 3; i++)
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 5),
-                      child: SizedBox(width: 10),
-                    ),
-                ],
-              ),
-            ),
             SizedBox(height: 30),
             Align(
               alignment: Alignment.centerLeft,
