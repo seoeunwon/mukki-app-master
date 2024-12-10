@@ -187,10 +187,15 @@ class _RestaurantState extends State<Restaurant> {
   }
 
   @override
-  Widget build(BuildContext context) {
+  void initState() {
+    super.initState();
     fetchMenuData();
     fetchRestaurant();
     print(resdaTa);
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
