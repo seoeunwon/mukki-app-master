@@ -27,7 +27,7 @@ class _SignUpPreferencesState extends State<SignUpPreferences> {
   }
 
   Future<void> addUserToDatabase() async {
-    final String url = 'http://localhost:3000/user/register';
+    final String url = 'http://13.124.180.13/user/register';
 
     // 사용자가 입력한 데이터 수집
     final Map<String, dynamic> userData = {
@@ -63,7 +63,7 @@ class _SignUpPreferencesState extends State<SignUpPreferences> {
 
   Future<void> addPreferences() async {
     final String id = await fetchUserId(username);
-    final String url = 'http://localhost:3000/user/preference/$id';
+    final String url = 'http://13.124.180.13/user/preference/$id';
 
     // 사용자가 입력한 데이터 수집
     final Map<String, dynamic> userData = {
@@ -102,7 +102,7 @@ class _SignUpPreferencesState extends State<SignUpPreferences> {
     try {
       Dio dio = Dio();
       final response = await dio.post(
-        'http://localhost:3000/user/getId', // userID를 받아오는 POST API URL
+        'http://13.124.180.13/user/getId', // userID를 받아오는 POST API URL
         data: {
           "username": username, // 사용자가 입력한 username을 서버로 전송
         },
@@ -125,7 +125,7 @@ class _SignUpPreferencesState extends State<SignUpPreferences> {
     peanut = _selectedOptions.contains('Allergy');
 
     final String url =
-        'http://localhost:3000/restaurants/filteredLIst?vegan=$vegan&halal=$halal&peanut=$peanut';
+        'http://13.124.180.13/restaurants/filteredLIst?vegan=$vegan&halal=$halal&peanut=$peanut';
 
     try {
       Dio dio = Dio();
