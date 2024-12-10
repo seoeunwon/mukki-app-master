@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mukki/mainpage.dart';
+import 'package:mukki/shared_data.dart';
 
 class Restaurant extends StatelessWidget {
   const Restaurant({super.key});
@@ -36,7 +37,9 @@ class Restaurant extends StatelessWidget {
             borderRadius: BorderRadius.circular(5),
           ),
         ),
-        onPressed: () {},
+        onPressed: () {
+          print('Hi');
+        },
         child: Text(label),
       ),
     );
@@ -84,6 +87,7 @@ class Restaurant extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print(resId);
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(

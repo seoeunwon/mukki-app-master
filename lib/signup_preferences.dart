@@ -27,9 +27,8 @@ class _SignUpPreferencesState extends State<SignUpPreferences> {
   }
 
   Future<void> addUserToDatabase() async {
-    final String url = 'http://localhost:3000/user/register';
+    final String userUrl = 'http://13.124.180.13/user/register';
 
-    // 사용자가 입력한 데이터 수집
     final Map<String, dynamic> userData = {
       "username": _usernameController.text,
     };
@@ -37,7 +36,7 @@ class _SignUpPreferencesState extends State<SignUpPreferences> {
     try {
       Dio dio = Dio();
       Response response = await dio.post(
-        url,
+        userUrl,
         data: userData,
         options: Options(
           headers: {
@@ -46,13 +45,9 @@ class _SignUpPreferencesState extends State<SignUpPreferences> {
         ),
       );
 
-      if (response.statusCode == 200) {
+      if (response.statusCode == 201) {
         print('User added successfully: ${response.data}');
-        // 성공 시 메인 페이지로 이동
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => const MainPage()),
-        );
+        userId = response.data['user_id'];
       } else {
         print('Failed to add user: ${response.statusCode}');
       }
@@ -62,8 +57,7 @@ class _SignUpPreferencesState extends State<SignUpPreferences> {
   }
 
   Future<void> addPreferences() async {
-    final String id = await fetchUserId(username);
-    final String url = 'http://localhost:3000/user/preference/$id';
+    final String preurl = 'http://13.124.180.13/user/preference/$userId';
 
     // 사용자가 입력한 데이터 수집
     final Map<String, dynamic> userData = {
@@ -75,7 +69,7 @@ class _SignUpPreferencesState extends State<SignUpPreferences> {
     try {
       Dio dio = Dio();
       Response response = await dio.post(
-        url,
+        preurl,
         data: userData,
         options: Options(
           headers: {
@@ -84,7 +78,7 @@ class _SignUpPreferencesState extends State<SignUpPreferences> {
         ),
       );
 
-      if (response.statusCode == 200) {
+      if (response.statusCode == 201) {
         print('User added successfully: ${response.data}');
         Navigator.push(
           context,
@@ -98,34 +92,13 @@ class _SignUpPreferencesState extends State<SignUpPreferences> {
     }
   }
 
-  Future<String> fetchUserId(String username) async {
-    try {
-      Dio dio = Dio();
-      final response = await dio.post(
-        'http://localhost:3000/user/getId', // userID를 받아오는 POST API URL
-        data: {
-          "username": username, // 사용자가 입력한 username을 서버로 전송
-        },
-      );
-
-      if (response.statusCode == 200) {
-        return response.data['userId']; // 서버에서 반환한 userId를 사용
-      } else {
-        throw Exception('Failed to fetch user ID');
-      }
-    } on DioError catch (e) {
-      print('Error fetching user ID: $e');
-      return '';
-    }
-  }
-
   Future<void> fetchFilteredRestaurants() async {
     vegan = _selectedOptions.contains('Vegetarian');
     halal = _selectedOptions.contains('Halal');
     peanut = _selectedOptions.contains('Allergy');
 
-    final String url =
-        'http://localhost:3000/restaurants/filteredLIst?vegan=$vegan&halal=$halal&peanut=$peanut';
+    url =
+        'http://13.124.180.13/restaurants/filteredLIst?vegan=$vegan&halal=$halal&peanut=$peanut';
 
     try {
       Dio dio = Dio();
@@ -133,6 +106,7 @@ class _SignUpPreferencesState extends State<SignUpPreferences> {
 
       if (response.statusCode == 200) {
         print('success');
+        print(response.data);
       } else {
         print('Failed to load data: ${response.statusCode}');
       }
