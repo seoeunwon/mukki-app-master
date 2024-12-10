@@ -52,27 +52,7 @@ class _MainPageState extends State<MainPage> {
     );
   }
 
-  Widget buildRecommendButton(BuildContext context, String label) {
-    return ElevatedButton(
-      style: ElevatedButton.styleFrom(
-        backgroundColor: Colors.blue,
-        foregroundColor: Colors.white,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(5),
-        ),
-        minimumSize: Size(200, 160),
-      ),
-      onPressed: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => Restaurant()),
-        );
-      },
-      child: Text(label),
-    );
-  }
-
-  Widget resPic(BuildContext context, String imagePath, resid) {
+  Widget resPic(BuildContext context, String imagePath, int resId) {
     return SizedBox(
       width: 120,
       height: 90,
@@ -85,11 +65,9 @@ class _MainPageState extends State<MainPage> {
           ),
         ),
         onPressed: () {
-          resId = resid;
-          print(resId);
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => Restaurant()),
+            MaterialPageRoute(builder: (context) => Restaurant(resId: resId)),
           );
         },
         child: imagePath.isNotEmpty
@@ -126,10 +104,9 @@ class _MainPageState extends State<MainPage> {
             ),
           ),
           onPressed: () {
-            resId = resid;
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => Restaurant()),
+              MaterialPageRoute(builder: (context) => Restaurant(resId: resid)),
             );
           },
           child: Align(
@@ -235,8 +212,11 @@ class _MainPageState extends State<MainPage> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    resPic(context, resData[i]['photo']['file_path'],
-                        resData[i]['restaurant_id']),
+                    resPic(
+                      context,
+                      resData[i]['photo']['file_path'],
+                      resData[i]['restaurant_id'],
+                    ),
                     SizedBox(width: 10),
                     Expanded(
                         child: restaurantButton(context, resData[i]['name'],

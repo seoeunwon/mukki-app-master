@@ -3,17 +3,43 @@ import 'package:mukki/shared_data.dart';
 import 'package:dio/dio.dart';
 
 class Restaurant extends StatefulWidget {
-  const Restaurant({super.key});
+  const Restaurant({super.key, required this.resId});
+  final int resId;
 
   @override
   _RestaurantState createState() => _RestaurantState();
 }
 
 class _RestaurantState extends State<Restaurant> {
+  List<dynamic> resdaTa = [];
+  Future<void> fetchRestaurant() async {
+    try {
+      final Dio dio = Dio();
+      final response = await dio
+          .get('http://13.124.180.13/restaurants/info/${widget.resId}');
+
+      if (response.statusCode == 200) {
+        setState(() {
+          resdaTa = response.data;
+        });
+      } else {
+        setState(() {
+          resdaTa = response.data;
+        });
+      }
+    } catch (e) {
+      print('Error fetching data: $e');
+      setState(() {
+        resdaTa = [];
+      });
+    }
+  }
+
   Future<void> fetchMenuData() async {
     try {
       final Dio dio = Dio();
-      final response = await dio.get('http://13.124.180.13/menu/list/$resId');
+      final response =
+          await dio.get('http://13.124.180.13/menu/list/${widget.resId}');
 
       if (response.statusCode == 200) {
         setState(() {
@@ -64,13 +90,7 @@ class _RestaurantState extends State<Restaurant> {
             borderRadius: BorderRadius.circular(5),
           ),
         ),
-        onPressed: () {
-          print(resId);
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => Restaurant()),
-          );
-        },
+        onPressed: () {},
         child: imagePath.isNotEmpty
             ? ClipRRect(
                 child: Image.network(
@@ -104,13 +124,7 @@ class _RestaurantState extends State<Restaurant> {
             borderRadius: BorderRadius.circular(5),
           ),
         ),
-        onPressed: () {
-          print(resId);
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => Restaurant()),
-          );
-        },
+        onPressed: () {},
         child: imagePath.isNotEmpty
             ? ClipRRect(
                 child: Image.network(
@@ -175,6 +189,8 @@ class _RestaurantState extends State<Restaurant> {
   @override
   Widget build(BuildContext context) {
     fetchMenuData();
+    fetchRestaurant();
+    print(resdaTa);
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -191,7 +207,7 @@ class _RestaurantState extends State<Restaurant> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Restaurant',
+                    'gk',
                     style: TextStyle(fontSize: 30),
                   ),
                   SizedBox(height: 20),
