@@ -11,4 +11,4 @@ String url = '';
 List<String> restaurantData = [];
 int resId = 0;
 List<dynamic> menuItems = [];
-String resAddress = 'sads';
+String resAddress = '';

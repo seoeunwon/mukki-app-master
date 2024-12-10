@@ -30,7 +30,7 @@ class _MainPageState extends State<MainPage> {
 
       if (response.statusCode == 200) {
         setState(() {
-          resData = response.data as List<dynamic>; // 데이터를 상태 변수에 저장
+          resData = response.data as List<dynamic>;
         });
         return resData;
       } else {
@@ -86,6 +86,7 @@ class _MainPageState extends State<MainPage> {
         ),
         onPressed: () {
           resId = resid;
+          print(resId);
           Navigator.push(
             context,
             MaterialPageRoute(builder: (context) => Restaurant()),

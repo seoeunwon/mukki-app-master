@@ -1,67 +1,150 @@
 import 'package:flutter/material.dart';
-import 'package:mukki/mainpage.dart';
 import 'package:mukki/shared_data.dart';
+import 'package:dio/dio.dart';
 
-class Restaurant extends StatelessWidget {
+class Restaurant extends StatefulWidget {
   const Restaurant({super.key});
 
-  Widget buildRecommendButton(BuildContext context, String label) {
-    return ElevatedButton(
-      style: ElevatedButton.styleFrom(
-        backgroundColor: Colors.blue,
-        foregroundColor: Colors.white,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(5),
-        ),
-        minimumSize: Size(200, 160),
-      ),
-      onPressed: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => MainPage()),
-        );
-      },
-      child: Text(label),
+  @override
+  _RestaurantState createState() => _RestaurantState();
+}
+
+class _RestaurantState extends State<Restaurant> {
+  Future<List<dynamic>> fetchMenuData() async {
+    try {
+      final Dio dio = Dio();
+      final response = await dio.get('http://13.124.180.13/menu/list/$resId');
+
+      if (response.statusCode == 200) {
+        menuItems = response.data as List<dynamic>;
+        print(menuItems);
+        return menuItems;
+      } else {
+        return [];
+      }
+    } catch (e) {
+      print('Error fetching data: $e');
+      return [];
+    }
+  }
+
+  Widget menuButton(BuildContext context, String label) {
+    return SizedBox(
+      width: double.infinity,
+      height: 90,
+      child: TextButton(
+          style: TextButton.styleFrom(
+            backgroundColor: Colors.white,
+            foregroundColor: Colors.black,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(5),
+            ),
+          ),
+          onPressed: () {},
+          child: Align(
+            alignment: Alignment.centerLeft,
+            child: Text(label),
+          )),
     );
   }
 
-  Widget foodPic(BuildContext context, String label) {
+  Widget bigFoodPic(BuildContext context, String imagePath) {
     return SizedBox(
-      width: 120,
-      height: 90,
+      width: 200,
+      height: 150,
       child: TextButton(
         style: TextButton.styleFrom(
-          backgroundColor: Colors.blueGrey,
+          backgroundColor: Colors.white,
           foregroundColor: Colors.white,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(5),
           ),
         ),
         onPressed: () {
-          print('Hi');
+          print(resId);
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => Restaurant()),
+          );
         },
-        child: Text(label),
+        child: imagePath.isNotEmpty
+            ? ClipRRect(
+                child: Image.network(
+                  imagePath,
+                  fit: BoxFit.fitWidth,
+                  width: 200,
+                  height: 150,
+                  errorBuilder: (context, error, stackTrace) {
+                    return Icon(
+                      Icons.broken_image_outlined,
+                      size: 50,
+                      color: Colors.black, // 아이콘 색상을 검은색으로 설정
+                    );
+                  },
+                ),
+              )
+            : Icon(Icons.image_not_supported, size: 50), // 경로가 없을 때 아이콘 표시
       ),
     );
   }
 
-  Widget bigfoodPic(BuildContext context, String label) {
+  Widget foodPic(BuildContext context, String imagePath) {
     return SizedBox(
-      width: 200,
-      height: 150,
+      width: 120,
+      height: 90,
       child: TextButton(
         style: TextButton.styleFrom(
-          backgroundColor: Colors.blueGrey,
+          backgroundColor: Colors.white,
           foregroundColor: Colors.white,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(5),
           ),
         ),
-        onPressed: () {},
-        child: Text(label),
+        onPressed: () {
+          print(resId);
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => Restaurant()),
+          );
+        },
+        child: imagePath.isNotEmpty
+            ? ClipRRect(
+                child: Image.network(
+                  imagePath,
+                  fit: BoxFit.fitWidth,
+                  width: 200,
+                  height: 90,
+                  errorBuilder: (context, error, stackTrace) {
+                    return Icon(
+                      Icons.broken_image_outlined,
+                      size: 50,
+                      color: Colors.black, // 아이콘 색상을 검은색으로 설정
+                    );
+                  },
+                ),
+              )
+            : Icon(Icons.image_not_supported, size: 50), // 경로가 없을 때 아이콘 표시
       ),
     );
   }
+
+  // Widget bigfoodPic(BuildContext context, String label) {
+  //   return SizedBox(
+  //     width: 200,
+  //     height: 150,
+  //     child: TextButton(
+  //       style: TextButton.styleFrom(
+  //         backgroundColor: Colors.blueGrey,
+  //         foregroundColor: Colors.white,
+  //         shape: RoundedRectangleBorder(
+  //           borderRadius: BorderRadius.circular(5),
+  //         ),
+  //       ),
+  //       onPressed: () {},
+  //       child: Text(label),
+  //     ),
+  //   );
+  // }
 
   Widget restaurantButton(BuildContext context, String label) {
     return SizedBox(
@@ -87,7 +170,7 @@ class Restaurant extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(resId);
+    fetchMenuData();
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -128,13 +211,11 @@ class Restaurant extends StatelessWidget {
               scrollDirection: Axis.horizontal,
               child: Row(
                 children: [
-                  bigfoodPic(context, 'food1'),
-                  SizedBox(width: 10),
-                  bigfoodPic(context, 'food2'),
-                  SizedBox(width: 10),
-                  bigfoodPic(context, 'food3'),
-                  SizedBox(width: 10),
-                  bigfoodPic(context, 'food4'),
+                  for (int i = 0; i < 3; i++)
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 5),
+                      child: SizedBox(width: 10),
+                    ),
                 ],
               ),
             ),
@@ -146,32 +227,18 @@ class Restaurant extends StatelessWidget {
             SizedBox(
               height: 20,
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                foodPic(context, 'res1'),
-                SizedBox(width: 10),
-                Expanded(child: restaurantButton(context, 'res1')),
-              ],
-            ),
-            SizedBox(height: 10),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                foodPic(context, 'res2'),
-                SizedBox(width: 10),
-                Expanded(child: restaurantButton(context, 'res2')),
-              ],
-            ),
-            SizedBox(height: 10),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                foodPic(context, 'res3'),
-                SizedBox(width: 10),
-                Expanded(child: restaurantButton(context, 'res3')),
-              ],
-            ),
+            for (int i = 0; i < menuItems.length; i++)
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 5),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    foodPic(context, menuItems[i]['photo']['file_path']),
+                    SizedBox(width: 10),
+                    Expanded(child: menuButton(context, menuItems[i]['name'])),
+                  ],
+                ),
+              ),
           ],
         ),
       ),
