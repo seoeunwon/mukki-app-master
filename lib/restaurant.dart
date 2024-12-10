@@ -10,21 +10,25 @@ class Restaurant extends StatefulWidget {
 }
 
 class _RestaurantState extends State<Restaurant> {
-  Future<List<dynamic>> fetchMenuData() async {
+  Future<void> fetchMenuData() async {
     try {
       final Dio dio = Dio();
       final response = await dio.get('http://13.124.180.13/menu/list/$resId');
 
       if (response.statusCode == 200) {
-        menuItems = response.data as List<dynamic>;
-        print(menuItems);
-        return menuItems;
+        setState(() {
+          menuItems = response.data as List<dynamic>;
+        });
       } else {
-        return [];
+        setState(() {
+          menuItems = [];
+        });
       }
     } catch (e) {
       print('Error fetching data: $e');
-      return [];
+      setState(() {
+        menuItems = [];
+      });
     }
   }
 
