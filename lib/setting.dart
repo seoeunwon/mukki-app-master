@@ -83,6 +83,14 @@ class _SettingState extends State<Setting> {
                 style: TextStyle(fontSize: 20),
               ),
               SizedBox(height: 20),
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  'Add food to exclude',
+                  style: TextStyle(fontSize: 20),
+                ),
+              ),
+              SizedBox(height: 10),
               Row(
                 children: [
                   Expanded(
@@ -144,41 +152,11 @@ class _SettingState extends State<Setting> {
               Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
-                  'Change your address',
+                  '📍address: $userAddress',
                   textAlign: TextAlign.left,
                   style: TextStyle(fontSize: 20),
                 ),
               ),
-              SizedBox(height: 20),
-              TextField(
-                  style: TextStyle(fontSize: 15),
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: 'Search',
-                    labelStyle: TextStyle(
-                      color: Color(0xFF2D4739),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                      color: Color(0xFF2D4739),
-                    )),
-                  ),
-                  cursorColor: Color(0xFF2D4739)),
-              SizedBox(height: 18),
-              TextField(
-                  style: TextStyle(fontSize: 15),
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: 'Additional address',
-                    labelStyle: TextStyle(
-                      color: Color(0xFF2D4739),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                      color: Color(0xFF2D4739),
-                    )),
-                  ),
-                  cursorColor: Color(0xFF2D4739)),
               SizedBox(height: 60),
               Align(
                 alignment: Alignment.centerLeft,

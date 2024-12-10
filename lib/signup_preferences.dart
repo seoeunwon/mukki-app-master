@@ -15,6 +15,7 @@ class _SignUpPreferencesState extends State<SignUpPreferences> {
   final List<String> _selectedOptions = [];
   final TextEditingController _excludeFoodController = TextEditingController();
   final TextEditingController _usernameController = TextEditingController();
+  final TextEditingController _addressController = TextEditingController();
 
   bool vegan = false;
   bool halal = false;
@@ -212,6 +213,7 @@ class _SignUpPreferencesState extends State<SignUpPreferences> {
                 children: [
                   Expanded(
                     child: TextField(
+                      controller: _addressController,
                       style: const TextStyle(fontSize: 15),
                       decoration: const InputDecoration(
                         border: OutlineInputBorder(),
@@ -235,25 +237,16 @@ class _SignUpPreferencesState extends State<SignUpPreferences> {
                       minimumSize: const Size(70, 55),
                     ),
                     onPressed: () {
-                      // 주소 검색 API 연동 로직
+                      setState(() {
+                        userAddress = _addressController.text;
+                        print('User Address: $userAddress');
+                      });
                     },
-                    child: const Text('Search'),
+                    child: const Text('Submit'),
                   ),
                 ],
               ),
-              const SizedBox(height: 10),
-              const TextField(
-                style: TextStyle(fontSize: 15),
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: 'Additional address',
-                  labelStyle: TextStyle(color: Color(0xFF2D4739)),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Color(0xFF2D4739)),
-                  ),
-                ),
-                cursorColor: Color(0xFF2D4739),
-              ),
+
               const SizedBox(height: 18),
               const Text(
                 'Pick your preferences or',
